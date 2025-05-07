@@ -10,7 +10,18 @@
  **/
 public class Main {
 
-    public static void main(String[] args) {
 
-    }
-}
+    public static void main(String[] args) {
+         // Example usage:
+         List<String> names = new ArrayList<>();
+         names.add("Alice");
+         names.add("Bob");
+         names.add("Charlie");
+ 
+         Game unoGame = new Game(names);
+         unoGame.run();
+     }
+ 
+ 
+ }
+ 
