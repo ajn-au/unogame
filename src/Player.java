@@ -1,10 +1,10 @@
 /**
  * Represents a player in the Uno game, holding a name and a hand of cards.
  *
- * Author: [Your Name]
- * Student ID: [Your ID]
- * Email ID: [Your Email ID]
- * AI Tool Used: [Specify if used]
+ * Author: Andrew Nell
+ * Student ID: 110450836
+ * Email ID: NELAY007
+ * AI Tool Used: Copilot for boilerplate code and some comments
  * This is my own work as defined by the University's Academic Integrity Policy.
  */
 public class Player {
