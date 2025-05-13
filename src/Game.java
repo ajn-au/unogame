@@ -1,346 +1,265 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
+    private final Deck deck;
+    private final Pile pile;
+    private final List<Player> players;
+    private final Scanner humanInteractionScannerInstance;
 
-    private final GameStateManager gameState;
-    private final DeckManager deckManager;
-    private final EffectHandler effectHandler;
-    private final Scanner scanner;
-    private final Random random;
-    private final List<String> playerNames;
-    private final int seed;
+    private int currentPlayerIndex;
+    private boolean playDirectionClockwise = true;
+    private Color activeWildColor = null;
+    private boolean isGameRunning = true;
+    private boolean skipNextPlayerTurnFlag = false;
 
-    /**
-     * Creates a new Uno game with the specified player names.
-     * @param playerNames List of names for the players.
-     */
-    public Game (List<String> playerNames) {
-        if (playerNames == null || playerNames.size() < 2) {
-            throw new IllegalArgumentException("Must have at least 2 players.");
+    public Game(List<PlayerStrategy> playerStrategies, List<String> playerNames, long deckSeed, Scanner scannerForHumanSetup) {
+        validateInputs(playerStrategies, playerNames);
+        this.deck = new Deck(deckSeed);
+        this.pile = new Pile();
+        this.players = new ArrayList<>();
+
+        for (int i = 0; i < playerNames.size(); i++) {
+            players.add(new Player(playerNames.get(i), playerStrategies.get(i)));
         }
-        this.playerNames = playerNames;
-        this.seed = new Random().nextInt();
-        this.random = new Random(seed);
-        Deck deck = new Deck((long) seed);
-        Pile pile = new Pile();
-        this.deckManager = new DeckManager(deck, pile);
-        this.gameState = new GameStateManager(createPlayers(playerNames));
-        this.effectHandler = new EffectHandler(gameState, deckManager);
-        scanner = new Scanner(System.in);
-
+        this.humanInteractionScannerInstance = scannerForHumanSetup;
+        this.currentPlayerIndex = 0;
     }
 
-    /**
-     * Starts and runs the Uno game loop.
-     */
+    private void validateInputs(List<PlayerStrategy> playerStrategies, List<String> playerNames) {
+        Objects.requireNonNull(playerNames);
+        Objects.requireNonNull(playerStrategies);
+        if (playerNames.size() < 2 || playerStrategies.size() != playerNames.size()) {
+            throw new IllegalArgumentException("Must have at least 2 players with matching strategies and names.");
+        }
+    }
+
     public void run() {
-        dealInitialHands();
-        Card initialCard = deckManager.flipInitialCard();
-        System.out.println("Initial card: " + initialCard);
-
-        System.out.println("\n--- Game Start ---");
-        while (gameState.isGameRunning()) {
-        while (gameRunning) {
-            Player currentPlayer = players.get(currentPlayerIndex);
-            System.out.println("\n--------------------");
-            System.out.println(currentPlayer.getName() + "'s Turn");
-
-            if (skipNextPlayer) {
-                System.out.println(currentPlayer.getName() + "'s turn is skipped!");
-                skipNextPlayer = false; // Reset flag
-                advancePlayer();
-                continue; // Move to the next player's turn immediately
-            }
-
-            takeTurn(currentPlayer);
-
-            if (!gameRunning) break; // Check if game ended during the turn
-
-            advancePlayer();
+        try {
+            startGame();
+        } finally {
+            closeScannerIfNeeded();
         }
-
-        System.out.println("\n--- Game Over ---");
-        scanner.close();
     }
 
-    private void dealInitialHands() {
-        System.out.println("Dealing hands...");
+    private void startGame() {
+        if (!dealInitialHands() || !flipInitialCard()) return;
+
+        System.out.println("\n--- Uno Game Start ---");
+        while (isGameRunning) {
+            handlePlayerTurn();
+        }
+        System.out.println("\n--- Game Over ---");
+    }
+
+    private void handlePlayerTurn() {
+        Player currentPlayer = players.get(currentPlayerIndex);
+        System.out.println("\n====================");
+        System.out.println(currentPlayer.getName() + "'s Turn");
+
+        if (skipNextPlayerTurnFlag) {
+            System.out.println(currentPlayer.getName() + "'s turn is SKIPPED!");
+            skipNextPlayerTurnFlag = false;
+            advancePlayer();
+            return;
+        }
+
+        takeTurn(currentPlayer);
+        if (isGameRunning) advancePlayer();
+    }
+
+    private boolean dealInitialHands() {
+        System.out.println("Dealing initial 7 cards to each player...");
         for (Player player : players) {
             try {
-                 player.getHand().addCards(deck.drawCards(7));
+                player.getHand().addCards(deck.drawCards(7));
             } catch (IllegalStateException e) {
-                System.err.println("Error dealing initial hands: Not enough cards in deck. " + e.getMessage());
-                gameRunning = false; // Can't start game
-                return;
+                System.err.println("CRITICAL ERROR: Not enough cards in deck for initial deal. " + e.getMessage());
+                isGameRunning = false;
+                return false;
             }
         }
+        System.out.println("Initial hands dealt.");
+        return true;
     }
 
-    private void flipInitialCard() {
-        System.out.println("Flipping initial card...");
-        Card topCard = null;
-        boolean validStartCard = false;
-        while (!validStartCard) {
-            ensureDeckNotEmpty(); // Make sure deck isn't empty before drawing
-            if (!gameRunning) return; // Exit if reshuffle failed
-
-            topCard = deck.drawCard();
-            pile.addCard(topCard);
-            System.out.println("Initial card: " + topCard);
-
-            if (topCard.getValue() == Value.WILD_DRAW_FOUR) {
-                System.out.println("Starting card is WILD DRAW FOUR. Reshuffling into deck.");
-                List<Card> reshuffle = pile.takeCardsForReshuffle(); // Should only be this card
-                deck.addCards(reshuffle);
+    private boolean flipInitialCard() {
+        System.out.println("Flipping initial card onto the pile...");
+        while (true) {
+            if (!ensureDeckNotEmpty()) {
+                System.err.println("CRITICAL ERROR: Deck and pile empty. Cannot flip starting card.");
+                isGameRunning = false;
+                return false;
+            }
+            Card firstCard = deck.drawCard();
+            System.out.println("Flipped: " + firstCard);
+            if (firstCard.getValue() == Value.WILD_DRAW_FOUR) {
+                System.out.println("WILD_DRAW_FOUR cannot be starting card. Reshuffling.");
+                deck.addCards(Collections.singletonList(firstCard));
                 deck.shuffle();
-                // Loop continues to draw another card
-            } else {
-                validStartCard = true;
-                // Handle initial card effects (BEFORE first player's turn)
-                 handleInitialCardEffect(topCard);
+                continue;
             }
-        }
-    }
-     // Handle effects of the very first card flipped
-    private void handleInitialCardEffect(Card card) {
-        switch (card.getValue()) {
-            case SKIP:
-                System.out.println("First card is SKIP. Player 1's turn is skipped.");
-                skipNextPlayer = true; // The first player (index 0) will be skipped on their turn
-                break;
-            case REVERSE:
-                System.out.println("First card is REVERSE. Direction reversed.");
-                clockwise = !clockwise;
-                // In a 2-player game, reverse acts like skip
-                if (players.size() == 2) {
-                     skipNextPlayer = true;
-                     System.out.println(" (Acts as SKIP in 2-player game)");
-                }
-                break;
-            case DRAW_TWO:
-                System.out.println("First card is DRAW TWO. Player 1 draws 2 and is skipped.");
+            pile.addCard(firstCard);
+            firstCard.applyEffect(this);
+            if (firstCard.getValue() == Value.WILD) {
                 Player firstPlayer = players.get(0);
-                 drawCardsForPlayer(firstPlayer, 2);
-                skipNextPlayer = true;
-                break;
-            case WILD:
-                System.out.println("First card is WILD.");
-                 // Player 0 chooses the color before their turn starts
-                 chosenWildColor = promptForWildColor(players.get(0));
-                 System.out.println(players.get(0).getName() + " chose " + chosenWildColor);
-                break;
-            // WILD_DRAW_FOUR already handled in flipInitialCard loop
-            // Number cards have no initial effect
-            default:
-                break;
+                Color chosen = firstPlayer.chooseWildColor(this);
+                setActiveWildColor(chosen);
+                System.out.println(firstPlayer.getName() + " chose starting color: " + chosen);
+            }
+            break;
         }
+        return true;
     }
 
-    private void takeTurn(Player currentPlayer, Card topCard) {
-        displayGameState(currentPlayer);
+    private void takeTurn(Player player) {
+        displayGameState(player);
+        List<Card> playable = player.getHand().findValidCards(pile.getTopCard(), activeWildColor);
+        Card cardToPlay = playable.isEmpty() ? handleDraw(player) : player.chooseCardToPlay(this, playable);
 
-        Card topCard = pile.getTopCard();
-        List<Card> validPlays = currentPlayer.getHand().findValidCards(topCard, chosenWildColor);
-
-        Card cardToPlay = null;
-
-        if (validPlays.isEmpty()) {
-            System.out.println("No valid cards to play. Drawing a card...");
-            drawCardsForPlayer(currentPlayer, 1);
-            // Check if the newly drawn card can be played
-             Card drawnCard = currentPlayer.getHand().getCards().get(currentPlayer.getHand().getSize() - 1); // Last card drawn
-             System.out.println("Drew: " + drawnCard);
-            if (drawnCard.canPlayOn(topCard, chosenWildColor)) {
-                System.out.println("The drawn card can be played!");
-                // Simple AI/Rule: Play immediately if possible
-                cardToPlay = drawnCard;
-            } else {
-                System.out.println("Drawn card cannot be played. Turn ends.");
-                 chosenWildColor = null; // Reset any lingering wild choice from previous turn
-                return; // End turn after drawing
-            }
+        if (cardToPlay != null && isCardPlayable(cardToPlay, player)) {
+            playCard(player, cardToPlay);
         } else {
-            // Prompt player to choose a card (implement proper input validation)
-             cardToPlay = promptForCardPlay(currentPlayer, validPlays);
+            System.out.println(player.getName() + " cannot play. Turn passes.");
         }
-
-         // --- Play the chosen card ---
-         if (cardToPlay != null) {
-            System.out.println(currentPlayer.getName() + " plays " + cardToPlay);
-            currentPlayer.getHand().playCard(cardToPlay); // Remove from hand
-            pile.addCard(cardToPlay); // Add to pile
-            chosenWildColor = null; // Reset wild color choice unless set below
-
-            handleCardEffect(cardToPlay, currentPlayer);
-
-            if (currentPlayer.getHand().isEmpty()) {
-                System.out.println("\n" + currentPlayer.getName() + " wins!");
-                gameRunning = false;
-            }
-         } else {
-             // This case should ideally not happen if promptForCardPlay is robust,
-             // but handle defensively. Could mean player chose not to play drawn card.
-             System.out.println(currentPlayer.getName() + "'s turn ends.");
-              chosenWildColor = null;
-         }
     }
 
-    // Placeholder for player input - needs robust implementation
-    private Card promptForCardPlay(Player player, List<Card> validPlays) {
-        System.out.println("Your playable cards:");
-        for (int i = 0; i < validPlays.size(); i++) {
-            System.out.println((i + 1) + ": " + validPlays.get(i));
-        }
-         // Option to not play drawn card could be added here if needed
-        System.out.print("Choose card number to play (1-" + validPlays.size() + "): ");
+    private Card handleDraw(Player player) {
+        System.out.println(player.getName() + " has no valid cards. Drawing a card...");
+        if (!ensureDeckNotEmpty()) return null;
+        Card drawn = deck.drawCard();
+        System.out.println(player.getName() + " drew: " + drawn);
+        player.getHand().addCard(drawn);
+        return drawn.canPlayOn(pile.getTopCard(), activeWildColor) ? drawn : null;
+    }
 
-        int choice = -1;
-        while (choice < 1 || choice > validPlays.size()) {
+    private boolean isCardPlayable(Card card, Player player) {
+        return player.getHand().getCards().contains(card) &&
+               card.canPlayOn(pile.getTopCard(), activeWildColor);
+    }
+
+    private void playCard(Player player, Card card) {
+        System.out.println(player.getName() + " plays " + card);
+        player.getHand().playCard(card);
+        pile.addCard(card);
+        activeWildColor = null;
+        card.applyEffect(this);
+
+        if (player.getHand().isEmpty()) {
+            System.out.println("\n" + player.getName() + " exclaims 'UNO!' and WINS!");
+            isGameRunning = false;
+        }
+    }
+
+    private void advancePlayer() {
+        int size = players.size();
+        currentPlayerIndex = playDirectionClockwise
+            ? (currentPlayerIndex + 1) % size
+            : (currentPlayerIndex - 1 + size) % size;
+    }
+
+    private boolean ensureDeckNotEmpty() {
+        if (!deck.isEmpty()) return true;
+        List<Card> reshuffle = pile.takeCardsForReshuffle();
+        if (reshuffle.isEmpty()) return false;
+        System.out.println("\nDeck is empty! Reshuffling discard pile...");
+        deck.addCards(reshuffle);
+        deck.shuffle();
+        System.out.println("Deck reshuffled with " + deck.cardsLeft() + " cards.");
+        return true;
+    }
+
+    private void displayGameState(Player player) {
+        System.out.println("Pile Top: " + pile.getTopCard() +
+                (activeWildColor != null ? " (Active Wild Color: " + activeWildColor + ")" : ""));
+        for (Player p : players) System.out.print(p.getName() + ":" + p.getHand().getSize() + " | ");
+        System.out.println("\n" + player.getName() + "'s Hand: " + player.getHand());
+    }
+
+    private void closeScannerIfNeeded() {
+        if (humanInteractionScannerInstance != null) {
+            humanInteractionScannerInstance.close();
+        }
+    }
+
+    public void skipNextPlayerTurn() { skipNextPlayerTurnFlag = true; }
+    public void reversePlayDirection() { playDirectionClockwise = !playDirectionClockwise; }
+    public void setActiveWildColor(Color color) { activeWildColor = color; }
+    public void makePlayerDraw(Player player, int count) {
+        for (int i = 0; i < count; i++) {
+            if (!ensureDeckNotEmpty()) break;
+            player.getHand().addCard(deck.drawCard());
+        }
+        System.out.println(player.getName() + " drew " + count + " card(s). Hand size now " + player.getHand().getSize());
+    }
+    public int getNumberOfPlayers() { return players.size(); }
+    public Player getCurrentPlayer() { return players.get(currentPlayerIndex); }
+    public Player getNextPlayer() {
+        int size = players.size();
+        int nextIndex = playDirectionClockwise
+            ? (currentPlayerIndex + 1) % size
+            : (currentPlayerIndex - 1 + size) % size;
+        return players.get(nextIndex);
+    }
+    public Pile getPile() { return pile; }
+    public Color getActiveWildColor() { return activeWildColor; }
+    public Scanner getHumanInteractionScanner() { return humanInteractionScannerInstance; }
+    
+    public static void main(String[] args) {
+        Scanner setupScanner = new Scanner(System.in);
+        List<String> playerNames = new ArrayList<>();
+        List<PlayerStrategy> playerStrategies = new ArrayList<>();
+
+        int numPlayers = 0;
+        while (numPlayers < 2 || numPlayers > 4) {
+            System.out.print("Enter number of players (2-4): ");
             try {
-                choice = scanner.nextInt();
-                if (choice < 1 || choice > validPlays.size()) {
-                    System.out.print("Invalid choice. Enter number 1-" + validPlays.size() + ": ");
+                String line = setupScanner.nextLine().trim();
+                if (line.isEmpty()){ System.out.println("Please enter a number."); continue;}
+                numPlayers = Integer.parseInt(line);
+                if (numPlayers < 2 || numPlayers > 4) {
+                    System.out.println("Invalid number. Must be between 2 and 4.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.print("Invalid input. Please enter a number: ");
-                scanner.next(); // Consume invalid input
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
         }
-        scanner.nextLine(); // Consume newline left-over
-        return validPlays.get(choice - 1);
-    }
 
-     // Placeholder for player input - needs robust implementation
-    private Color promptForWildColor(Player player) {
-        System.out.println(player.getName() + ", choose a color for the WILD card:");
-        for (int i = 0; i < 4; i++) { // Only standard colors
-            System.out.println((i + 1) + ": " + Color.values()[i]);
+        for (int i = 0; i < numPlayers; i++) {
+            String name;
+            while(true){
+                System.out.print("Enter name for Player " + (i + 1) + ": ");
+                name = setupScanner.nextLine().trim();
+                if(!name.isEmpty()) break;
+                System.out.println("Player name cannot be empty.");
+            }
+            playerNames.add(name);
+            if (i == 0) {
+                playerStrategies.add(new HumanStrategy(setupScanner));
+            } else {
+                playerStrategies.add(new BasicAIStrategy());
+            }
         }
-        System.out.print("Choose color number (1-4): ");
-        int choice = -1;
-         while (choice < 1 || choice > 4) {
-             try {
-                 choice = scanner.nextInt();
-                 if (choice < 1 || choice > 4) {
-                     System.out.print("Invalid choice. Enter number 1-4: ");
-                 }
-             } catch (InputMismatchException e) {
-                 System.out.print("Invalid input. Please enter a number: ");
-                 scanner.next(); // Consume invalid input
-             }
-         }
-         scanner.nextLine(); // Consume newline
-        return Color.values()[choice - 1]; // RED=0, YELLOW=1, etc.
-    }
 
-
-    private void handleCardEffect(Card playedCard, Player currentPlayer) {
-        Value value = playedCard.getValue();
-        int nextPlayerIndex;
-
-        switch (value) {
-            case DRAW_TWO:
-                System.out.println("Next player draws two and is skipped.");
-                 nextPlayerIndex = getNextPlayerIndex();
-                 drawCardsForPlayer(players.get(nextPlayerIndex), 2);
-                 skipNextPlayer = true; // Mark the *next* player to be skipped
-                break;
-            case SKIP:
-                 System.out.println("Next player is skipped.");
-                 skipNextPlayer = true; // Mark the *next* player to be skipped
-                break;
-            case REVERSE:
-                System.out.print("Direction reversed. ");
-                clockwise = !clockwise;
-                 if (players.size() == 2) { // In 2 player game, reverse acts like skip
-                     System.out.println("(Acts as SKIP)");
-                     skipNextPlayer = true;
-                 } else {
-                     System.out.println();
-                 }
-                break;
-            case WILD:
-                 chosenWildColor = promptForWildColor(currentPlayer);
-                 System.out.println(currentPlayer.getName() + " chose " + chosenWildColor);
-                break;
-            case WILD_DRAW_FOUR:
-                 System.out.println("Next player draws four and is skipped.");
-                 chosenWildColor = promptForWildColor(currentPlayer);
-                 System.out.println(currentPlayer.getName() + " chose " + chosenWildColor);
-                 nextPlayerIndex = getNextPlayerIndex();
-                 drawCardsForPlayer(players.get(nextPlayerIndex), 4);
-                 skipNextPlayer = true; // Mark the *next* player to be skipped
-                break;
-            default: // Number cards
-                break;
+        System.out.print("Enter a seed for deck shuffle (leave blank for random time-based seed): ");
+        long seed;
+        String seedInput = setupScanner.nextLine().trim();
+        try {
+            if (seedInput.isEmpty()) {
+                seed = System.currentTimeMillis();
+                System.out.println("Using random seed: " + seed);
+            } else {
+                seed = Long.parseLong(seedInput);
+                System.out.println("Using provided seed: " + seed);
+            }
+        } catch (NumberFormatException e) {
+            seed = System.currentTimeMillis();
+            System.out.println("Invalid seed input. Using random seed: " + seed);
         }
+
+        Game unoGame = new Game(playerStrategies, playerNames, seed, setupScanner);
+        unoGame.run();
+        // The setupScanner is passed to HumanStrategy instances, and Game will close it if it's not System.in
     }
 
-    private void advanceToNextPlayer() {
-         if (clockwise) {
-             currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-         } else {
-             currentPlayerIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
-         }
-    }
-
-    private int getNextPlayerIndex() {
-         if (clockwise) {
-              return (currentPlayerIndex + 1) % players.size();
-          } else {
-              return (currentPlayerIndex - 1 + players.size()) % players.size();
-          }
-    }
-
-     private void drawCardsForPlayer(Player player, int numCards) {
-         System.out.print(player.getName() + " draws " + numCards + " card(s).");
-         for (int i=0; i<numCards; ++i) {
-             ensureDeckNotEmpty();
-             if (!gameRunning) return; // Stop if reshuffle fails
-              try {
-                   player.getHand().addCard(deck.drawCard());
-              } catch (IllegalStateException e) {
-                   // Should be caught by ensureDeckNotEmpty, but defensive check
-                   System.err.println("\nError drawing card: " + e.getMessage());
-                   gameRunning = false;
-                   return;
-              }
-         }
-         System.out.println();
-     }
-
-     private void ensureDeckNotEmpty() {
-         if (deck.isEmpty()) {
-             System.out.println("\nDeck is empty! Reshuffling discard pile...");
-             List<Card> cardsToReshuffle = pile.takeCardsForReshuffle();
-             if (cardsToReshuffle.isEmpty()) {
-                 System.out.println("No cards in discard pile to reshuffle. Game might be stuck!");
-                 // Consider ending game in a draw or other state here
-                 // For now, we'll let it potentially throw later if draw is attempted
-                 // gameRunning = false; // Option to end game
-                 return;
-             }
-             deck.addCards(cardsToReshuffle);
-             deck.shuffle();
-             System.out.println("Deck reshuffled with " + deck.cardsLeft() + " cards.");
-         }
-     }
-
-    private void displayGameState(Player currentPlayer) {
-        System.out.println("Top Card: " + pile.getTopCard() +
-                           (chosenWildColor != null ? " (Chosen Color: " + chosenWildColor + ")" : ""));
-        System.out.println(currentPlayer.getName() + "'s " + currentPlayer.getHand());
-         // Optional: Display other players' hand sizes
-         // for (Player p : players) {
-         //     if (p != currentPlayer) {
-         //         System.out.println(p.getName() + " has " + p.getHand().getSize() + " cards.");
-         //     }
-         // }
-    }
-
-
-    }
+    
+}

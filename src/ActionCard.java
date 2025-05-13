@@ -21,8 +21,24 @@ public class ActionCard extends Card {
     }
 
     @Override
-    public void applyEffect(EffectHandler gameController) {
-        // The EffectHandler now manages all card effects.
-        // This method is intentionally left empty.
+    public void applyEffect(Game gameController) {
+        switch (this.value) {
+            case SKIP:
+                gameController.skipNextPlayerTurn();
+                break;
+            case REVERSE:
+                gameController.reversePlayDirection();
+                if (gameController.getNumberOfPlayers() == 2) {
+                    gameController.skipNextPlayerTurn();
+                }
+                break;
+            case DRAW_TWO:
+                Player nextPlayer = gameController.getNextPlayer();
+                gameController.makePlayerDraw(nextPlayer, 2);
+                gameController.skipNextPlayerTurn();
+                break;
+            default:
+                break;
+        }
     }
 }

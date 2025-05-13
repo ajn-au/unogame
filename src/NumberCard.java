@@ -1,5 +1,3 @@
-package unogame;
-
 public class NumberCard extends Card {
     public NumberCard(Color color, Value value) {
         super(color, value);
@@ -12,8 +10,7 @@ public class NumberCard extends Card {
     }
 
     @Override
-    public void applyEffect(GameController gameController) {
-        // The EffectHandler now manages all card effects.
-        // This method is intentionally left empty.
+    public void applyEffect(Game gameController) {
+        // No special effect
     }
 }
