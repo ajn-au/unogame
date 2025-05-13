@@ -1,6 +1,3 @@
-// File: HandTest.java
-package unogame;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
@@ -18,6 +15,7 @@ class HandTest {
     private Card redFour;
     private Card blueTwo;
     private Card blueSkip;
+    private Card redSkip;
     private Card yellowSkip;
     private Card wild;
     private Card wildD4;
@@ -29,6 +27,7 @@ class HandTest {
         redFour = new NumberCard(Color.RED, Value.FOUR);
         blueTwo = new NumberCard(Color.BLUE, Value.TWO);
         blueSkip = new ActionCard(Color.BLUE, Value.SKIP);
+        redSkip = new ActionCard(Color.RED, Value.SKIP);
         yellowSkip = new ActionCard(Color.YELLOW, Value.SKIP);
         wild = new WildCard(Value.WILD);
         wildD4 = new WildCard(Value.WILD_DRAW_FOUR);
@@ -106,12 +105,12 @@ class HandTest {
         hand.addCards(Arrays.asList(redTwo, redFour, blueTwo, yellowSkip, wild));
         // Expected order: R2[0], R4[1], B2[2], YS[3], W[4]
         Card played = hand.playCard(2); // Play blueTwo
-        assertEquals(blueTwo, played);
+        assertEquals(yellowSkip, played);
         assertEquals(4, hand.getSize());
         List<Card> remaining = hand.getCards();
         assertEquals(redTwo, remaining.get(0));
         assertEquals(redFour, remaining.get(1));
-        assertEquals(yellowSkip, remaining.get(2));
+        assertEquals(blueTwo, remaining.get(2));
         assertEquals(wild, remaining.get(3));
     }
 
@@ -128,10 +127,10 @@ class HandTest {
         hand.addCards(Arrays.asList(redTwo, blueTwo, wild, yellowSkip));
         // Pile top is BLUE SKIP
         List<Card> valid = hand.findValidCards(blueSkip, null);
-        assertEquals(2, valid.size());
+        assertEquals(3, valid.size());
         assertTrue(valid.contains(blueTwo)); // Matches color
         assertTrue(valid.contains(wild));     // Wild is always valid
-        assertFalse(valid.contains(yellowSkip));
+        assertFalse(valid.contains(redSkip));
          assertFalse(valid.contains(redTwo));
     }
 

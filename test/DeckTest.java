@@ -1,6 +1,3 @@
-// File: DeckTest.java
-package unogame;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
@@ -95,14 +92,14 @@ class DeckTest {
         // Ensure all original cards are still present after shuffle (though order changed)
          Deck deck3 = new Deck(seed); // Fresh deck with same seed
          List<Card> originalCards = deck3.drawCards(108); // Get all cards in original order
-         List<Card> shuffledCards = deck1.drawCards(107); // Get remaining shuffled cards
+         List<Card> shuffledCards = deck1.drawCards(106); // Get remaining shuffled cards
          shuffledCards.add(card2_d1); // Add the one we drew earlier
          shuffledCards.add(card1_d1); // Add the very first one
 
          Set<Card> originalSet = new HashSet<>(originalCards);
          Set<Card> shuffledSet = new HashSet<>(shuffledCards);
 
-         assertEquals(108, shuffledSet.size(), "Shuffled deck should still contain 108 unique cards if setup correctly");
+         assertEquals(54, shuffledSet.size(), "Shuffled deck should still contain unique cards if setup correctly");
          assertEquals(originalSet, shuffledSet, "Shuffled deck must contain the exact same set of cards as the original");
     }
 

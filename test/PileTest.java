@@ -1,6 +1,3 @@
-// File: PileTest.java
-package unogame;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -116,3 +113,4 @@ class PileTest {
         assertFalse(pile.canPlay(redFive, Color.BLUE)); // Chosen color doesn't match
         // assertFalse(pile.canPlay(redFive, null)); // No chosen color, cannot play non-wild
     }
+}

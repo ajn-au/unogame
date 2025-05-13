@@ -11,8 +11,11 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-import java.util.NoSuchElementException;
-
+/**
+ * Represents a pile of cards, specifically the discard pile in an Uno game.
+ * This class allows adding cards to the pile, peeking at the top card,
+ * and reshuffling cards for the deck.
+ */
 public class Pile {
     // Use Deque for efficient addFirst (push) and peekFirst (peek)
     private final Deque<Card> cards;

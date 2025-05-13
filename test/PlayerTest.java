@@ -1,12 +1,7 @@
-// File: PlayerTest.java
-package unogame;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*; // Using Mockito for mocking strategy
 
 /**
  * Unit tests for the Player class.
@@ -18,8 +13,8 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        mockStrategy = mock(PlayerStrategy.class); // Create a mock strategy
-        player = new Player("Tester");
+        mockStrategy = new BasicAIStrategy();
+        player = new Player("Tester", mockStrategy);
     }
 
 
@@ -32,16 +27,16 @@ class PlayerTest {
 
      @Test
     void testInvalidPlayerCreation() {
-         assertThrows(IllegalArgumentException.class, () -> new Player(null));
-         assertThrows(IllegalArgumentException.class, () -> new Player(" "));
-         assertThrows(IllegalArgumentException.class, () -> new Player(""));
+         assertThrows(NullPointerException.class, () -> new Player(null, mockStrategy));
+         assertThrows(IllegalArgumentException.class, () -> new Player(" ", mockStrategy));
+         assertThrows(IllegalArgumentException.class, () -> new Player("", mockStrategy));
          //assertThrows(NullPointerException.class, () -> new Player("Valid", null));
     }
 
      @Test
      void testEqualsAndHashCode() {
          Player player1a = new Player("Alice", new BasicAIStrategy());
-         Player player1b = new Player("Alice", new HumanStrategy(null)); // Different strategy
+         Player player1b = new Player("Alice", new HumanStrategy(new Scanner(System.in))); // Different strategy
          Player player2 = new Player("Bob", new BasicAIStrategy());
          
          assertTrue(player1a.equals(player1b)); // Equal names

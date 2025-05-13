@@ -1,11 +1,7 @@
-// File: GameTest.java
-package unogame;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 
 /*
  * Integration-style tests for the Game class, focusing on core mechanics.
@@ -13,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class GameTest {
 
-    private List<String> playerNames;
     private List<PlayerStrategy> strategies;
     //private final long fixedSeed = 12345L; // For reproducible deck
 
@@ -31,8 +26,7 @@ class GameTest {
 
     @BeforeEach
     void setUp() {
-        playerNames = Arrays.asList("Player1", "Player2");
-        //strategies = Arrays.asList(simpleAI, simpleAI); // Both use simple AI for testing
+        Arrays.asList("Player1", "Player2");
     }
     /*
     @Test
@@ -85,52 +79,8 @@ class GameTest {
         assertEquals(0, game.getCurrentPlayerIndex_TestOnly());
     }*/
 
-     @Test
-     void testWinCondition() {
-          // Setup: Give player 1 one card, player 2 many. Make top card playable by player 1.
-          PlayerStrategy winningAI = (h, p, t, wc) -> p.get(0); // Always play the first (only) card
-          strategies = Arrays.asList(winningAI, simpleAI);
-          Game game = new Game(strategies, playerNames, fixedSeed);
-
-          // Manipulate hands AFTER dealing (need direct access or special setup method)
-          // game.dealInitialHands(); // Deal normally first
-          // Player p1 = game.getPlayers().get(0);
-          // Player p2 = game.getPlayers().get(1);
-          // Hand p1Hand = p1.getHand();
-          // // Clear p1 hand and add one playable card
-          // Card topCard = game.getPile().getTopCard();
-          // Card playableCard = null;
-          // if (topCard.getColor() != Color.WILD) {
-          //     playableCard = new NumberCard(topCard.getColor(), Value.NINE); // Match color
-          // } else { playableCard = new NumberCard(Color.RED, Value.NINE); } // Play anything on wild
-          // p1Hand.getCards_TestOnly().clear(); // Need direct access for test setup
-          // p1Hand.addCard(playableCard);
-          // // Run one turn for player 1
-          // game.takeTurn(p1);
-          // assertFalse(game.isGameRunning_TestOnly()); // Game should have ended
-          // assertTrue(p1.getHand().isEmpty());
-          assertTrue(true);
-     }
-
-
+    
     // Helper methods in Game might be needed for testing internal state
     // e.g., getCurrentPlayerIndex_TestOnly(), getSkipNextPlayerFlag_TestOnly() etc.
     // These should NOT be part of the production Game API.
 }
-
-// Add test-only getters to Game.java if needed:
-/*
-  // --- Methods for Testing ONLY ---
-  int getCurrentPlayerIndex_TestOnly() { return currentPlayerIndex; }
-  boolean getSkipNextPlayerFlag_TestOnly() { return skipNextPlayer; }
-  boolean isGameRunning_TestOnly() { return gameRunning; }
-  Deck getDeck() { return deck;} // Allow access to deck for test setup
-  Pile getPile() { return pile;} // Allow access to pile for test setup
-  List<Player> getPlayers() {return players;} // Allow access to players for test setup
-*/
-
-// Add test-only getter to Hand.java if needed:
-/*
- // --- Methods for Testing ONLY ---
- List<Card> getCards_TestOnly() { return cards; } // Allow direct modification for setup
- */
