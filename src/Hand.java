@@ -1,29 +1,17 @@
 /**
  * File: Hand.java
- * Description: A brief description of this Java module.
- * Author: Steve Jobs
- * Student ID: 12345678
- * Email ID: jobst007
- * AI Tool Used: Y/N (This includes all AI Tools e.g. ChatGPT, Microsoft or Github Copiliot etc... Please leave blank if you do not wish to share this information)
- * This is my own work as defined by
- *    the University's Academic Integrity Policy.
+ * Description:  Represents a player's hand of Uno cards. Uses an ArrayList and explicitly sorts cards after each addition to maintain sorted order as per the requirement.
+ * Author: Andrew Nell 
+ * Student ID: 110450836
+ * Email ID: NELAY007
+ * AI Tool Used: Copilot for boilerplate code and some comments
+ * This is my own work as defined by he University's Academic Integrity Policy.
  **/
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Represents a player's hand of Uno cards.
- * Uses an ArrayList and explicitly sorts cards after each addition
- * to maintain sorted order as per the requirement.
- *
- * Author: [Your Name]
- * Student ID: [Your ID]
- * Email ID: [Your Email ID]
- * AI Tool Used: [Specify if used]
- * This is my own work as defined by the University's Academic Integrity Policy.
- */
 public class Hand {
     private final List<Card> cards;
 
@@ -147,5 +135,3 @@ public class Hand {
 
      // equals() and hashCode() are less critical for Hand, focus on Card's.
 }
-
-

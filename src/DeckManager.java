@@ -1,4 +1,3 @@
-package unogame;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +8,7 @@ import java.util.Objects;
  * 
   * Author: Andrew Nell
  * Student ID: 110450836
- * Email ID: NELAY007
+ * Email ID: NELAY007 
  * AI Tools Used: None
  * This is my own work as defined by the University's Academic Integrity Policy.
  */

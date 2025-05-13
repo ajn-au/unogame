@@ -11,7 +11,7 @@ package unogame;
  * This is my own work as defined by the University's Academic Integrity Policy.
  */
 public class EffectHandler {
-    private final GameStateManager gameState;
+    private  GameStateManager gameState;
     private final DeckManager deckManager;
     
     /**
@@ -29,7 +29,7 @@ public class EffectHandler {
      * @param card The card to apply
      * @param playedBy The player who played the card
      */
-    public void applyCardEffect(Card card, Player playedBy) {
+    public  void applyCardEffect(Card card, Player playedBy) {
         switch (card.getValue()) {
             case SKIP:
                 applySkipEffect();
@@ -55,7 +55,7 @@ public class EffectHandler {
     /**
      * Applies the SKIP card effect.
      */
-    private void applySkipEffect() {
+    private  void applySkipEffect() {
         gameState.skipNextPlayerTurn();
         System.out.println(gameState.getNextPlayer().getName() + "'s turn will be skipped!");
     }
@@ -63,7 +63,7 @@ public class EffectHandler {
     /**
      * Applies the REVERSE card effect.
      */
-    private void applyReverseEffect() {
+    private  void applyReverseEffect() {
         gameState.reversePlayDirection();
         System.out.println("Play direction reversed to " + 
                          (gameState.isPlayDirectionClockwise() ? "clockwise" : "counter-clockwise"));
@@ -78,7 +78,7 @@ public class EffectHandler {
     /**
      * Applies the DRAW_TWO card effect.
      */
-    private void applyDrawTwoEffect() {
+    private  void applyDrawTwoEffect() {
         Player nextPlayer = gameState.getNextPlayer();
         int cardsDrawn = deckManager.makePlayerDraw(nextPlayer, 2);
         System.out.println(nextPlayer.getName() + " draws " + cardsDrawn + " cards and is skipped!");
@@ -89,7 +89,7 @@ public class EffectHandler {
      * Applies the WILD card effect.
      * @param player The player who played the wild
      */
-    private void applyWildEffect(Player player) {
+    private  void applyWildEffect(Player player) {
         Color chosenColor = player.chooseWildColor(gameState);
         gameState.setActiveWildColor(chosenColor);
         System.out.println(player.getName() + " chose " + chosenColor + " as the new color!");
@@ -99,7 +99,7 @@ public class EffectHandler {
      * Applies the WILD_DRAW_FOUR card effect.
      * @param player The player who played the wild draw four
      */
-    private void applyWildDrawFourEffect(Player player) {
+    private  void applyWildDrawFourEffect(Player player) {
         // Choose color first (same as regular wild)
         applyWildEffect(player);
         

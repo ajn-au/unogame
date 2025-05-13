@@ -63,7 +63,7 @@ public class DeckReshuffleTest {
         assertEquals(1, countCardsInPile(pile));
         
         // Deck should have the rest
-        assertEquals(allCards.size() - 2, deck.cardsLeft());
+        assertEquals(allCards.size() - 1, deck.cardsLeft());
     }
     
     @Test

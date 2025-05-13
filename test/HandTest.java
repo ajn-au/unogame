@@ -131,7 +131,7 @@ class HandTest {
         assertEquals(2, valid.size());
         assertTrue(valid.contains(blueTwo)); // Matches color
         assertTrue(valid.contains(wild));     // Wild is always valid
-        assertFalse(valid.contains(yellowSkip)); // Value match doesn't work with wild color check?
+        assertFalse(valid.contains(yellowSkip));
          assertFalse(valid.contains(redTwo));
     }
 

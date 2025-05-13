@@ -13,7 +13,7 @@ public class NumberCard extends Card {
 
     @Override
     public void applyEffect(GameController gameController) {
-        // No special effect
+        // The EffectHandler now manages all card effects.
+        // This method is intentionally left empty.
     }
 }
-

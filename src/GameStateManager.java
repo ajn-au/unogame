@@ -166,7 +166,7 @@ public class GameStateManager {
      * Checks if next player's turn should be skipped.
      * @return true if next player should be skipped, false otherwise
      */
-    public boolean isSkipNextPlayerTurnFlagged() {
+    public boolean isSkipNextPlayerTurnFlagSet() {
         return skipNextPlayerTurnFlag;
     }
     

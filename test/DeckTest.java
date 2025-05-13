@@ -116,4 +116,11 @@ class DeckTest {
          assertEquals(108, deck.cardsLeft());
          // Note: addCards doesn't reshuffle.
      }
+
+     @Test
+     void testToString() {
+         Deck deck = new Deck();
+         String deckString = deck.toString();
+         assertTrue(deckString.contains("108 cards left"), "toString should indicate number of cards");
+     }
 }

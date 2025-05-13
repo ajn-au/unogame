@@ -8,6 +8,7 @@
  * This is my own work as defined by
  *    the University's Academic Integrity Policy.
  **/
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Deck {
     }
 
     private void initializeDeck() {
-        // Standard colors (non-WILD)
+         // Standard colors (non-WILD)
         Color[] standardColors = {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
         for (Color color : standardColors) {
@@ -166,5 +167,3 @@ public class Deck {
     
     // Other methods unchanged
 }
-
-

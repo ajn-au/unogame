@@ -8,8 +8,6 @@
  * This is my own work as defined by the University's Academic Integrity Policy.
  **/
 
-// File: Card.java
-
 import java.util.Objects;
 
 /**

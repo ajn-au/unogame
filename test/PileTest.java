@@ -102,9 +102,9 @@ class PileTest {
         Card wildCard = new WildCard(Value.WILD);
 
         assertTrue(pile.canPlay(redFive, null)); // Color match
-        assertTrue(pile.canPlay(blueTwo, null)); // Value match
+        assertTrue(pile.canPlay(blueTwo, null));  // Value match
         assertFalse(pile.canPlay(greenThree, null)); // No match
-        assertTrue(pile.canPlay(wildCard, null)); // Wild match
+        assertTrue(pile.canPlay(wildCard, null));    // Wild match
     }
 
      @Test
@@ -113,7 +113,6 @@ class PileTest {
         Card redFive = new NumberCard(Color.RED, Value.FIVE);
 
         assertTrue(pile.canPlay(redFive, Color.RED)); // Chosen color matches
-         assertFalse(pile.canPlay(redFive, Color.BLUE)); // Chosen color doesn't match
-         // assertFalse(pile.canPlay(redFive, null)); // No chosen color, cannot play non-wild
+        assertFalse(pile.canPlay(redFive, Color.BLUE)); // Chosen color doesn't match
+        // assertFalse(pile.canPlay(redFive, null)); // No chosen color, cannot play non-wild
     }
-}

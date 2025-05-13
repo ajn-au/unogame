@@ -63,7 +63,7 @@ public class CardMatchingParameterizedTest {
             
             // Playing on wild cards without active color set
             Arguments.of(redOne, wild, null, false),
-            Arguments.of(wild, wild, null, true),
+            Arguments.of(wild, wild, null, true), // Wild can always be played
             
             // Special case: draw two matching
             Arguments.of(redDrawTwo, greenDrawTwo, null, true),

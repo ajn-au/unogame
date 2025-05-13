@@ -1,20 +1,18 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
 
-    private final Deck deck;
-    private final Pile pile;
-    private final List<Player> players;
-    private final Scanner scanner; // For user input
-
-    private int currentPlayerIndex;
-    private boolean clockwise = true;
-    private Color chosenWildColor = null; // Tracks chosen color for a played WILD
-    private boolean gameRunning = true;
-    private boolean skipNextPlayer = false; // Flag to handle SKIP/DRAW_TWO effect
+    private final GameStateManager gameState;
+    private final DeckManager deckManager;
+    private final EffectHandler effectHandler;
+    private final Scanner scanner;
+    private final Random random;
+    private final List<String> playerNames;
+    private final int seed;
 
     /**
      * Creates a new Uno game with the specified player names.
@@ -24,14 +22,16 @@ public class Game {
         if (playerNames == null || playerNames.size() < 2) {
             throw new IllegalArgumentException("Must have at least 2 players.");
         }
-        deck = new Deck();
-        pile = new Pile();
-        players = new ArrayList<>();
-        for (String name : playerNames) {
-            players.add(new Player(name));
-        }
+        this.playerNames = playerNames;
+        this.seed = new Random().nextInt();
+        this.random = new Random(seed);
+        Deck deck = new Deck((long) seed);
+        Pile pile = new Pile();
+        this.deckManager = new DeckManager(deck, pile);
+        this.gameState = new GameStateManager(createPlayers(playerNames));
+        this.effectHandler = new EffectHandler(gameState, deckManager);
         scanner = new Scanner(System.in);
-        currentPlayerIndex = 0; // Player 0 starts
+
     }
 
     /**
@@ -39,10 +39,11 @@ public class Game {
      */
     public void run() {
         dealInitialHands();
-        flipInitialCard();
+        Card initialCard = deckManager.flipInitialCard();
+        System.out.println("Initial card: " + initialCard);
 
         System.out.println("\n--- Game Start ---");
-
+        while (gameState.isGameRunning()) {
         while (gameRunning) {
             Player currentPlayer = players.get(currentPlayerIndex);
             System.out.println("\n--------------------");
@@ -139,7 +140,7 @@ public class Game {
         }
     }
 
-    private void takeTurn(Player currentPlayer) {
+    private void takeTurn(Player currentPlayer, Card topCard) {
         displayGameState(currentPlayer);
 
         Card topCard = pile.getTopCard();
@@ -279,7 +280,7 @@ public class Game {
         }
     }
 
-    private void advancePlayer() {
+    private void advanceToNextPlayer() {
          if (clockwise) {
              currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
          } else {
@@ -342,4 +343,4 @@ public class Game {
     }
 
 
-   }
+    }
