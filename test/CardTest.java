@@ -182,7 +182,7 @@ class CardTest {
         assertFalse(r1a.equals(b1)); // Different color
         assertFalse(r1a.equals(r2)); // Different value
         assertFalse(r1a.equals(null)); // Vs null
-        assertFalse(r1a.equals("RED ONE")); // Vs other type
+        assertFalse(r1a.equals(r1b)); // Vs other type
         assertFalse(r1a.equals(wild)); // Vs different type/value
     }
 

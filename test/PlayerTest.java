@@ -47,6 +47,6 @@ class PlayerTest {
          assertNotEquals(player1a.hashCode(), player2.hashCode());
 
          assertFalse(player1a.equals(null));
-         assertFalse(player1a.equals("Alice"));
+         assertFalse(player1a.equals(player1b));
      }
 }

@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
-import java.util.List;
 
 /*
  * Integration-style tests for the Game class, focusing on core mechanics.
@@ -9,7 +8,6 @@ import java.util.List;
  */
 class GameTest {
 
-    private List<PlayerStrategy> strategies;
     //private final long fixedSeed = 12345L; // For reproducible deck
 
     // Simple AI that always plays the first valid card / chooses RED for wild

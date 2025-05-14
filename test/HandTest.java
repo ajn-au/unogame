@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +17,6 @@ class HandTest {
     private Card redSkip;
     private Card yellowSkip;
     private Card wild;
-    private Card wildD4;
 
     @BeforeEach
     void setUp() {
@@ -30,7 +28,6 @@ class HandTest {
         redSkip = new ActionCard(Color.RED, Value.SKIP);
         yellowSkip = new ActionCard(Color.YELLOW, Value.SKIP);
         wild = new WildCard(Value.WILD);
-        wildD4 = new WildCard(Value.WILD_DRAW_FOUR);
     }
 
     @Test
