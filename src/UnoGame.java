@@ -63,7 +63,7 @@ public class UnoGame {
             return;
         }
 
-        takeTurn(currentPlayer);
+        playTurn(currentPlayer);
         if (isGameRunning) advancePlayer();
     }
 
@@ -85,7 +85,7 @@ public class UnoGame {
     private boolean flipInitialCard() {
         System.out.println("Flipping initial card onto the pile...");
         while (true) {
-            if (!ensureDeckNotEmpty()) {
+            if (!reshufflePile()) {
                 System.err.println("CRITICAL ERROR: Deck and pile empty. Cannot flip starting card.");
                 isGameRunning = false;
                 return false;
@@ -111,10 +111,10 @@ public class UnoGame {
         return true;
     }
 
-    private void takeTurn(Player player) {
+    private void playTurn(Player player) {
         displayGameState(player);
         List<Card> playable = player.getHand().findValidCards(pile.getTopCard(), activeWildColor);
-        Card cardToPlay = playable.isEmpty() ? handleDraw(player) : player.chooseCardToPlay(this, playable);
+        Card cardToPlay = playable.isEmpty() ? handleCardEffect(player) : player.chooseCardToPlay(this, playable);
 
         if (cardToPlay != null && isCardPlayable(cardToPlay, player)) {
             playCard(player, cardToPlay);
@@ -123,9 +123,9 @@ public class UnoGame {
         }
     }
 
-    private Card handleDraw(Player player) {
+    private Card handleCardEffect(Player player) {
         System.out.println(player.getName() + " has no valid cards. Drawing a card...");
-        if (!ensureDeckNotEmpty()) return null;
+        if (!reshufflePile()) return null;
         Card drawn = deck.drawCard();
         System.out.println(player.getName() + " drew: " + drawn);
         player.getHand().addCard(drawn);
@@ -157,7 +157,7 @@ public class UnoGame {
             : (currentPlayerIndex - 1 + size) % size;
     }
 
-    private boolean ensureDeckNotEmpty() {
+    private boolean reshufflePile() {
         if (!deck.isEmpty()) return true;
         List<Card> reshuffle = pile.takeCardsForNewDeck();
         if (reshuffle.isEmpty()) return false;
@@ -186,7 +186,7 @@ public class UnoGame {
     public void setActiveWildColor(Color color) { activeWildColor = color; }
     public void makePlayerDraw(Player player, int count) {
         for (int i = 0; i < count; i++) {
-            if (!ensureDeckNotEmpty()) break;
+            if (!reshufflePile()) break;
             player.getHand().addCard(deck.drawCard());
         }
         System.out.println(player.getName() + " drew " + count + " card(s). Hand size now " + player.getHand().getSize());
