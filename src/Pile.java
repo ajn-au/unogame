@@ -50,7 +50,7 @@ public class Pile {
      * @return A list of cards that were below the top card. Returns an empty list
      *         if the pile had 0 or 1 cards.
      */
-    public List<Card> takeCardsForReshuffle() {
+    public List<Card> takeCardsForNewDeck() {
         if (cards.size() <= 1) {
             return new ArrayList<>(); // Nothing to reshuffle
         }

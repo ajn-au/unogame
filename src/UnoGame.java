@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Game {
+public class UnoGame {
     private final Deck deck;
     private final Pile pile;
     private final List<Player> players;
@@ -12,7 +12,7 @@ public class Game {
     private boolean isGameRunning = true;
     private boolean skipNextPlayerTurnFlag = false;
 
-    public Game(List<PlayerStrategy> playerStrategies, List<String> playerNames, long deckSeed, Scanner scannerForHumanSetup) {
+    public UnoGame(List<PlayerStrategy> playerStrategies, List<String> playerNames, long deckSeed, Scanner scannerForHumanSetup) {
         validateInputs(playerStrategies, playerNames);
         this.deck = new Deck(deckSeed);
         this.pile = new Pile();
@@ -159,12 +159,12 @@ public class Game {
 
     private boolean ensureDeckNotEmpty() {
         if (!deck.isEmpty()) return true;
-        List<Card> reshuffle = pile.takeCardsForReshuffle();
+        List<Card> reshuffle = pile.takeCardsForNewDeck();
         if (reshuffle.isEmpty()) return false;
         System.out.println("\nDeck is empty! Reshuffling discard pile...");
         deck.addCards(reshuffle);
         deck.shuffle();
-        System.out.println("Deck reshuffled with " + deck.cardsLeft() + " cards.");
+        System.out.println("Deck reshuffled with " + deck.cardsRemaining() + " cards.");
         return true;
     }
 
@@ -256,7 +256,7 @@ public class Game {
             System.out.println("Invalid seed input. Using random seed: " + seed);
         }
 
-        Game unoGame = new Game(playerStrategies, playerNames, seed, setupScanner);
+        UnoGame unoGame = new UnoGame(playerStrategies, playerNames, seed, setupScanner);
         unoGame.run();
         // The setupScanner is passed to HumanStrategy instances, and Game will close it if it's not System.in
     }

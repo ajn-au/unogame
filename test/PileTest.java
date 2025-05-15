@@ -47,7 +47,7 @@ class PileTest {
 
     @Test
     void testTakeCardsForReshuffleEmpty() {
-        List<Card> reshuffle = pile.takeCardsForReshuffle();
+        List<Card> reshuffle = pile.takeCardsForNewDeck();
         assertTrue(reshuffle.isEmpty());
         assertNull(pile.getTopCard());
     }
@@ -55,12 +55,12 @@ class PileTest {
     @Test
     void testTakeCardsForReshuffleOneCard() {
         pile.addCard(redTwo);
-        List<Card> reshuffle = pile.takeCardsForReshuffle();
+        List<Card> reshuffle = pile.takeCardsForNewDeck();
         assertTrue(reshuffle.isEmpty());
         assertEquals(redTwo, pile.getTopCard()); // Pile still has the one card
     }
 
-     @Test
+    @Test
     void testTakeCardsForReshuffleMultipleCards() {
         pile.addCard(redTwo);
         pile.addCard(blueThree); // blueThree is top
@@ -68,7 +68,7 @@ class PileTest {
 
         assertEquals(wild, pile.getTopCard());
 
-        List<Card> reshuffle = pile.takeCardsForReshuffle();
+        List<Card> reshuffle = pile.takeCardsForNewDeck();
 
         assertEquals(2, reshuffle.size());
         assertTrue(reshuffle.contains(blueThree));
@@ -83,7 +83,7 @@ class PileTest {
         pile.addCard(greenSkip);
         assertEquals(greenSkip, pile.getTopCard());
         // Now try reshuffling again, should only get 'wild'
-         List<Card> reshuffle2 = pile.takeCardsForReshuffle();
+         List<Card> reshuffle2 = pile.takeCardsForNewDeck();
          assertEquals(1, reshuffle2.size());
          assertEquals(wild, reshuffle2.get(0));
          assertEquals(greenSkip, pile.getTopCard()); // Pile left with greenSkip

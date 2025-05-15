@@ -1,17 +1,23 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /*
  * Integration-style tests for the Game class, focusing on core mechanics.
  * Uses fixed deck seeds and simple AI for predictability.
  */
-class GameTest {
+class UnoGameTest {
 
-    //private final long fixedSeed = 12345L; // For reproducible deck
+    private final long fixedSeed = 12345L; // For reproducible deck
 
     // Simple AI that always plays the first valid card / chooses RED for wild
-    /*private PlayerStrategy simpleAI = new PlayerStrategy() {
+    /*
+    private PlayerStrategy simpleAI = new PlayerStrategy() {
         @Override
         public Card chooseCard(Hand hand, List<Card> playableCards, Card topPileCard, Color chosenWildColor) {
             return playableCards.isEmpty() ? null : playableCards.get(0);
@@ -20,45 +26,52 @@ class GameTest {
         public Color chooseWildColor(Hand hand) {
             return Color.RED;
         }
-    };*/
+    };
+    */
+    List<PlayerStrategy> strategies;
+    List<String> playerNames;
+    Scanner scanner;
 
     @BeforeEach
     void setUp() {
-        Arrays.asList("Player1", "Player2");
+        strategies = Arrays.asList(new BasicAIStrategy(), new BasicAIStrategy());
+        playerNames = Arrays.asList("Player1", "Player2");
+        scanner = new Scanner(System.in);
     }
-    /*
+
     @Test
     void testGameInitialization() {
-        Game game = new Game(strategies, playerNames, fixedSeed);
+
+        UnoGame game = new UnoGame(strategies, playerNames, fixedSeed, scanner);
         assertNotNull(game);
         // Further checks could involve peeking at player hands after dealing (needs getter or test setup)
-    }*/
+    }
 
-    /* @Test
+    @Test
     void testInitialDeal() {
          // Need a way to inspect player hands post-deal, maybe a test-specific Game constructor or method
          // Or mock Player/Hand interactions during dealing
          // For now, just ensure it runs without error
-         //Game game = new Game(strategies, playerNames, fixedSeed);
-         //game.run(); // Check if dealing succeeded
+         UnoGame game = new UnoGame(strategies, playerNames, fixedSeed, scanner);
+         game.run(); // Check if dealing succeeded
          // Cannot easily assert hand sizes without modifying Game/Player for testability
-    }*/
+    }
 
-
+    /*
     @Test
     void testInitialFlipSkip() {
         // Need to control the first card flipped. Mock Deck or inject cards.
         // Mocking Deck:
-        //Game game = new Game(strategies, playerNames, fixedSeed);
-        //game.dealInitialHands();
+        UnoGame game = new UnoGame(strategies, playerNames, fixedSeed, scanner);
+        game.dealInitialHands();
         // Manually force the pile for testing this specific scenario
-        // while(game.getPile().getTopCard() == null || game.getPile().getTopCard().getValue() != Value.SKIP) {
-        //    game.getPile().addCard(game.getDeck().drawCard()); // Flip until we get a skip (relies on fixed seed)
-        //    if(game.getDeck().isEmpty()) fail("Could not find a SKIP card with seed " + fixedSeed);
-        // }
+        while(game.getPile().getTopCard() == null || game.getPile().getTopCard().getValue() != Value.SKIP) {
+           game.getPile().addCard(game.getDeck().drawCard()); // Flip until we get a skip (relies on fixed seed)
+           if(game.getDeck().isEmpty()) fail("Could not find a SKIP card with seed " + fixedSeed);
+        }
         // System.out.println("Forcing initial card test with: " + game.getPile().getTopCard());
-        // game.handleInitialCardEffect(game.getPile().getTopCard());
-        // assertTrue(game.getSkipNextPlayerFlag_TestOnly()); // Need a getter for testing state
+        game.handleInitialCardEffect(game.getPile().getTopCard());
+        assertTrue(game.getSkipNextPlayerFlag()); // Need a getter for testing state
         //assertTrue(true);
     }
 

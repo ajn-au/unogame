@@ -14,7 +14,7 @@ public class HumanStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Card chooseCard(Game gameController, Hand hand, List<Card> playableCards, Card topPileCard, Color activeWildColor) {
+    public Card chooseCard(UnoGame gameController, Hand hand, List<Card> playableCards, Card topPileCard, Color activeWildColor) {
         if (playableCards.isEmpty()) return null;
 
         System.out.println("Your playable cards:");
@@ -36,7 +36,7 @@ public class HumanStrategy implements PlayerStrategy {
     }
 
     @Override
-    public Color chooseWildColor(Game gameController, Hand hand) {
+    public Color chooseWildColor(UnoGame gameController, Hand hand) {
         Color[] colors = {Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE};
 
         System.out.println("Choose a color for the WILD card:");

@@ -46,7 +46,7 @@ public class Player {
      * @param playableCards List of valid cards this turn.
      * @return Chosen card or null if none selected.
      */
-    public Card chooseCardToPlay(Game gameController, List<Card> playableCards) {
+    public Card chooseCardToPlay(UnoGame gameController, List<Card> playableCards) {
         Objects.requireNonNull(gameController);
         Objects.requireNonNull(playableCards);
         return strategy.chooseCard(gameController, hand, playableCards, gameController.getPile().getTopCard(), gameController.getActiveWildColor());
@@ -57,7 +57,7 @@ public class Player {
      * @param gameController The game context.
      * @return Chosen color.
      */
-    public Color chooseWildColor(Game gameController) {
+    public Color chooseWildColor(UnoGame gameController) {
         Objects.requireNonNull(gameController);
         return strategy.chooseWildColor(gameController, hand);
     }

@@ -15,7 +15,7 @@ public interface PlayerStrategy {
      * @param activeWildColor The currently selected wild color.
      * @return Chosen card or null to pass.
      */
-    Card chooseCard(Game gameController, Hand hand, List<Card> playableCards, Card topPileCard, Color activeWildColor);
+    Card chooseCard(UnoGame gameController, Hand hand, List<Card> playableCards, Card topPileCard, Color activeWildColor);
 
     /**
      * Chooses a color when playing a WILD or WILD_DRAW_FOUR.
@@ -23,5 +23,5 @@ public interface PlayerStrategy {
      * @param hand The player's hand.
      * @return The color chosen for wild use.
      */
-    Color chooseWildColor(Game gameController, Hand hand);
+    Color chooseWildColor(UnoGame gameController, Hand hand);
 }

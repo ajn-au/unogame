@@ -10,7 +10,7 @@ public class NumberCard extends Card {
     }
 
     @Override
-    public void applyEffect(Game gameController) {
+    public void applyEffect(UnoGame gameController) {
         // No special effect
     }
 }

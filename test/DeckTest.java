@@ -13,7 +13,7 @@ class DeckTest {
     @Test
     void testDeckInitializationSize() {
         Deck deck = new Deck();
-        assertEquals(108, deck.cardsLeft(), "Standard deck should have 108 cards initially.");
+        assertEquals(108, deck.cardsRemaining(), "Standard deck should have 108 cards initially.");
         assertFalse(deck.isEmpty());
     }
 
@@ -22,7 +22,7 @@ class DeckTest {
         Deck deck = new Deck();
         Card drawn = deck.drawCard();
         assertNotNull(drawn);
-        assertEquals(107, deck.cardsLeft());
+        assertEquals(107, deck.cardsRemaining(), "Drawn card should reduce size by 1.");
     }
 
     @Test
@@ -33,7 +33,7 @@ class DeckTest {
             assertNotNull(deck.drawCard());
         }
         assertTrue(deck.isEmpty());
-        assertEquals(0, deck.cardsLeft());
+        assertEquals(0, deck.cardsRemaining());
     }
 
     @Test
@@ -51,7 +51,7 @@ class DeckTest {
          Deck deck = new Deck();
          List<Card> drawn = deck.drawCards(7);
          assertEquals(7, drawn.size());
-         assertEquals(101, deck.cardsLeft());
+         assertEquals(101, deck.cardsRemaining());
      }
 
      @Test
@@ -106,10 +106,10 @@ class DeckTest {
      void testAddCards() {
          Deck deck = new Deck();
          List<Card> drawn = deck.drawCards(10);
-         assertEquals(98, deck.cardsLeft());
+         assertEquals(98, deck.cardsRemaining());
 
          deck.addCards(drawn);
-         assertEquals(108, deck.cardsLeft());
+         assertEquals(108, deck.cardsRemaining());
          // Note: addCards doesn't reshuffle.
      }
 

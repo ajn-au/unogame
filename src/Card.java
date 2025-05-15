@@ -22,6 +22,9 @@ public abstract class Card implements Comparable<Card> {
         this.value = value;
     }
 
+    public boolean isSpecial() { return this.value == Value.SKIP || this.value == Value.REVERSE
+            || this.value == Value.DRAW_TWO || this.value == Value.WILD_DRAW_FOUR || this.value == Value.WILD; }
+
     private void validateColorValueCombination(Color color, Value value) {
         boolean isWildValueType = (value == Value.WILD || value == Value.WILD_DRAW_FOUR);
         if (isWildValueType && color != Color.WILD) {
@@ -35,7 +38,7 @@ public abstract class Card implements Comparable<Card> {
     public Color getColor() { return color; }
     public Value getValue() { return value; }
 
-    public abstract void applyEffect(Game gameController);
+    public abstract void applyEffect(UnoGame gameController);
 
     public boolean canPlayOn(Card topPileCard, Color activeWildColorOnPile) {
         if (topPileCard == null) return true; 

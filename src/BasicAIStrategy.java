@@ -9,12 +9,12 @@ import java.util.Collections;
  */
 public class BasicAIStrategy implements PlayerStrategy {
     @Override
-    public Card chooseCard(Game gameController, Hand hand, List<Card> playableCards, Card topPileCard, Color activeWildColor) {
+    public Card chooseCard(UnoGame gameController, Hand hand, List<Card> playableCards, Card topPileCard, Color activeWildColor) {
         return playableCards.isEmpty() ? null : playableCards.get(0);
     }
 
     @Override
-    public Color chooseWildColor(Game gameController, Hand hand) {
+    public Color chooseWildColor(UnoGame gameController, Hand hand) {
         Map<Color, Integer> colorCount = new HashMap<>();
         for (Card card : hand.getCards()) {
             if (card.getColor() != Color.WILD) {

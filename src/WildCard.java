@@ -12,7 +12,7 @@ public class WildCard extends Card {
     }
 
     @Override
-    public void applyEffect(Game gameController) {
+    public void applyEffect(UnoGame gameController) {
         Player currentPlayer = gameController.getCurrentPlayer();
         Color chosenColor = currentPlayer.chooseWildColor(gameController);
         gameController.setActiveWildColor(chosenColor);

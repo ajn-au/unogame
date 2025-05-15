@@ -61,7 +61,7 @@ class CardTest {
     void testInvalidWildCardColor() {
         // Card constructor prevents non-WILD color for WILD values
         assertThrows(IllegalArgumentException.class, () -> new Card(Color.RED, Value.WILD){
-             @Override public void applyEffect(Game game) {} // Dummy implementation
+             @Override public void applyEffect(UnoGame game) {} // Dummy implementation
         });
     }
 
@@ -196,6 +196,11 @@ class CardTest {
          assertNotEquals(r1a.hashCode(), b1.hashCode()); // Different objects likely different hashCodes
     }
 
+    @Test
+    void testIspecial() {
+        Card wildCard = new WildCard(Color.WILD, Value.WILD);
+        assertTrue(wildCard.isSpecial());
+    }
     // applyEffect tests would ideally be in GameTest as they modify game state
     // or require mocking the Game interface/class.
 }

@@ -103,12 +103,12 @@ public class Deck {
         return cards.isEmpty();
     }
 
-    public int cardsLeft() {
+    public int cardsRemaining() {
         return cards.size();
     }
 
     @Override
     public String toString() {
-        return "Deck [" + cardsLeft() + " cards left]";
+        return "Deck [" + cardsRemaining() + " cards left]";
     }
 }
