@@ -52,8 +52,8 @@ public class Deck {
         }
 
         for (int i = 0; i < 4; i++) {
-            cards.add(new WildCard(Value.WILD));
-            cards.add(new WildCard(Value.WILD_DRAW_FOUR));
+            cards.add(new WildCard(Color.WILD, Value.WILD));
+            cards.add(new WildCard(Color.WILD, Value.WILD_DRAW_FOUR));
         }
     }
 

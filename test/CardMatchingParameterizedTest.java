@@ -31,9 +31,9 @@ public class CardMatchingParameterizedTest {
         Card yellowFive = new NumberCard(Color.YELLOW, Value.FIVE);
         Card greenDrawTwo = new ActionCard(Color.GREEN, Value.DRAW_TWO);
         
-        Card wild = new WildCard(Value.WILD);
-        Card wildDrawFour = new WildCard(Value.WILD_DRAW_FOUR);
-        
+        Card wild = new WildCard(Color.WILD, Value.WILD);
+        Card wildDrawFour = new WildCard(Color.WILD, Value.WILD_DRAW_FOUR);
+
         // Return scenarios as Stream<Arguments>
         return Stream.of(
             // Same color matching scenarios
@@ -89,7 +89,7 @@ public class CardMatchingParameterizedTest {
     
     private static Card createCard(Color color, Value value) {
         if (color == Color.WILD || value == Value.WILD || value == Value.WILD_DRAW_FOUR) {
-            return new WildCard(value);
+            return new WildCard(color,value);
         } else if (value.ordinal() <= Value.NINE.ordinal()) {
             return new NumberCard(color, value);
         } else {

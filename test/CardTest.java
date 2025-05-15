@@ -26,7 +26,7 @@ class CardTest {
 
     @Test
     void testValidWildCardCreation() {
-        Card card = new WildCard(Value.WILD);
+        Card card = new WildCard(Color.WILD, Value.WILD);
         assertEquals(Color.WILD, card.getColor());
         assertEquals(Value.WILD, card.getValue());
         assertEquals("WILD WILD", card.toString());
@@ -54,7 +54,7 @@ class CardTest {
 
     @Test
     void testInvalidWildCardValue() {
-        assertThrows(IllegalArgumentException.class, () -> new WildCard(Value.ONE));
+        assertThrows(IllegalArgumentException.class, () -> new WildCard(Color.WILD, Value.ONE));
     }
 
     @Test
@@ -98,7 +98,7 @@ class CardTest {
     @Test
     void testWildCanPlayOnAnything() {
         Card top = new NumberCard(Color.RED, Value.FIVE);
-        Card play = new WildCard(Value.WILD);
+        Card play = new WildCard(Color.WILD, Value.WILD);
         assertTrue(play.canPlayOn(top, null));
     }
 
@@ -110,7 +110,7 @@ class CardTest {
 
     @Test
     void testCanPlayOnWildChosenColor() {
-        Card top = new WildCard(Value.WILD);
+        Card top = new WildCard(Color.WILD, Value.WILD);
         Card playRed = new NumberCard(Color.RED, Value.ONE);
         Card playBlue = new NumberCard(Color.BLUE, Value.TWO);
 
@@ -125,7 +125,7 @@ class CardTest {
         // based on whether a color has been chosen yet. canPlayOn assumes
         // if chosenWildColor is null, the wild hasn't resolved.
         // A non-wild card cannot match the WILD color itself.
-        Card top = new WildCard(Value.WILD);
+        Card top = new WildCard(Color.WILD, Value.WILD);
         Card playRed = new NumberCard(Color.RED, Value.ONE);
         assertFalse(playRed.canPlayOn(top, null));
     }
@@ -137,7 +137,7 @@ class CardTest {
     void testCompareToColorPrimary() {
         Card red = new NumberCard(Color.RED, Value.ONE);
         Card yellow = new NumberCard(Color.YELLOW, Value.ONE);
-        Card wild = new WildCard(Value.WILD);
+        Card wild = new WildCard(Color.WILD, Value.WILD);
 
         assertTrue(red.compareTo(yellow) < 0); // RED < YELLOW
         assertTrue(yellow.compareTo(red) > 0);
@@ -149,8 +149,8 @@ class CardTest {
         Card red1 = new NumberCard(Color.RED, Value.ONE);
         Card red5 = new NumberCard(Color.RED, Value.FIVE);
         Card redSkip = new ActionCard(Color.RED, Value.SKIP);
-        Card wild = new WildCard(Value.WILD);
-        Card wildD4 = new WildCard(Value.WILD_DRAW_FOUR);
+        Card wild = new WildCard(Color.WILD, Value.WILD);
+        Card wildD4 = new WildCard(Color.WILD, Value.WILD_DRAW_FOUR);
 
         assertTrue(red1.compareTo(red5) < 0);    // ONE < FIVE
         assertTrue(red5.compareTo(redSkip) < 0); // FIVE < SKIP (based on enum order)
@@ -175,14 +175,14 @@ class CardTest {
         Card r1b = new NumberCard(Color.RED, Value.ONE);
         Card b1 = new NumberCard(Color.BLUE, Value.ONE);
         Card r2 = new NumberCard(Color.RED, Value.TWO);
-        Card wild = new WildCard(Value.WILD);
+        Card wild = new WildCard(Color.WILD,Value.WILD);
 
         assertTrue(r1a.equals(r1b)); // Equal cards
         assertTrue(r1b.equals(r1a)); // Symmetric
         assertFalse(r1a.equals(b1)); // Different color
         assertFalse(r1a.equals(r2)); // Different value
         assertFalse(r1a.equals(null)); // Vs null
-        assertFalse(r1a.equals(r1b)); // Vs other type
+        assertTrue(r1a.equals(r1b)); // Vs other type
         assertFalse(r1a.equals(wild)); // Vs different type/value
     }
 

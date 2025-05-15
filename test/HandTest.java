@@ -27,7 +27,7 @@ class HandTest {
         blueSkip = new ActionCard(Color.BLUE, Value.SKIP);
         redSkip = new ActionCard(Color.RED, Value.SKIP);
         yellowSkip = new ActionCard(Color.YELLOW, Value.SKIP);
-        wild = new WildCard(Value.WILD);
+        wild = new WildCard(Color.WILD, Value.WILD);
     }
 
     @Test
