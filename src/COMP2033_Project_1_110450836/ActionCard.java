@@ -1,3 +1,4 @@
+package COMP2033_Project_1_110450836;
 
 /**
  * Represents an action card in an Uno game (Skip, Reverse, Draw Two).
@@ -10,13 +11,22 @@
  */
 
 public class ActionCard extends Card {
+    /**
+     * Constructs an COMP2033_Project_1_110450836.ActionCard with the specified color and value.
+     * COMP2033_Project_1_110450836.ActionCard represents specific action cards in Uno, including SKIP, REVERSE, and DRAW_TWO.
+     *
+     * @param color the color of the action card; must not be WILD
+     * @param value the value of the action card; must be one of SKIP, REVERSE, or DRAW_TWO
+     * @throws IllegalArgumentException if the value is not SKIP, REVERSE, or DRAW_TWO
+     * @throws IllegalArgumentException if the color is WILD
+     */
     public ActionCard(Color color, Value value) {
         super(color, value);
         if (!(value == Value.SKIP || value == Value.REVERSE || value == Value.DRAW_TWO)) {
-            throw new IllegalArgumentException("ActionCard must be SKIP, REVERSE, or DRAW_TWO, not " + value);
+            throw new IllegalArgumentException("COMP2033_Project_1_110450836.ActionCard must be SKIP, REVERSE, or DRAW_TWO, not " + value);
         }
         if (color == Color.WILD) {
-            throw new IllegalArgumentException("ActionCard cannot have WILD color");
+            throw new IllegalArgumentException("COMP2033_Project_1_110450836.ActionCard cannot have WILD color");
         }
     }
 

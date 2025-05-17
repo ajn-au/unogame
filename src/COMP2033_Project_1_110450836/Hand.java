@@ -1,5 +1,5 @@
-/**
- * File: Hand.java
+package COMP2033_Project_1_110450836; /**
+ * File: COMP2033_Project_1_110450836.Hand.java
  * Description:  Represents a player's hand of Uno cards. Uses an ArrayList and explicitly sorts cards after each addition to maintain sorted order as per the requirement.
  * Author: Andrew Nell 
  * Student ID: 110450836
@@ -45,7 +45,7 @@ public class Hand {
 
     /**
      * Attempts to remove a specific card instance from the hand.
-     * Relies on Card.equals().
+     * Relies on COMP2033_Project_1_110450836.Card.equals().
      * @param card The card instance to remove.
      * @return true if the card was found and removed, false otherwise.
      */
@@ -63,7 +63,7 @@ public class Hand {
      public Card playCard(Card cardToPlay) {
          boolean removed = cards.remove(cardToPlay);
          if (!removed) {
-             throw new IllegalArgumentException("Card " + cardToPlay + " not found in hand.");
+             throw new IllegalArgumentException("COMP2033_Project_1_110450836.Card " + cardToPlay + " not found in hand.");
          }
          // Sort order is maintained by removal, no need to re-sort
          return cardToPlay;
@@ -82,7 +82,7 @@ public class Hand {
 
 
     /**
-     * Sorts the hand according to the Card's natural order (Comparable).
+     * Sorts the hand according to the COMP2033_Project_1_110450836.Card's natural order (Comparable).
      * Called automatically after cards are added.
      */
     private void sortHand() {
@@ -125,13 +125,13 @@ public class Hand {
     @Override
     public String toString() {
         if (cards.isEmpty()) {
-            return "Hand: []";
+            return "COMP2033_Project_1_110450836.Hand: []";
         }
         // Joining card strings with ", " - leverages sorted order
-        return "Hand: [" + cards.stream()
+        return "COMP2033_Project_1_110450836.Hand: [" + cards.stream()
                                 .map(Card::toString)
                                 .collect(Collectors.joining(", ")) + "]";
     }
 
-     // equals() and hashCode() are less critical for Hand, focus on Card's.
+     // equals() and hashCode() are less critical for COMP2033_Project_1_110450836.Hand, focus on COMP2033_Project_1_110450836.Card's.
 }

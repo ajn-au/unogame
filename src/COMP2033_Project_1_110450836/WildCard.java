@@ -1,13 +1,15 @@
+package COMP2033_Project_1_110450836;
+
 public class WildCard extends Card {
     public WildCard(Color color, Value value) {
         super(Color.WILD, value);
         
         if (color != Color.WILD) {
-            throw new IllegalArgumentException("WildCard color must be WILD, not " + color);
+            throw new IllegalArgumentException("COMP2033_Project_1_110450836.WildCard color must be WILD, not " + color);
         }
 
         if (!(value == Value.WILD || value == Value.WILD_DRAW_FOUR)) {
-            throw new IllegalArgumentException("WildCard must be WILD or WILD_DRAW_FOUR, not " + value);
+            throw new IllegalArgumentException("COMP2033_Project_1_110450836.WildCard must be WILD or WILD_DRAW_FOUR, not " + value);
         }
     }
 

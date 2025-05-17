@@ -1,3 +1,5 @@
+package COMP2033_Project_1_110450836;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -73,7 +75,7 @@ public class CardMatchingParameterizedTest {
         );
     }
     
-    @ParameterizedTest(name = "{index}: Card with color {0} and value {1} should be {2}")
+    @ParameterizedTest(name = "{index}: COMP2033_Project_1_110450836.Card with color {0} and value {1} should be {2}")
     @MethodSource("provideCardValidationScenarios")
     void testCardValidation(Color color, Value value, boolean shouldBeValid) {
         if (shouldBeValid) {

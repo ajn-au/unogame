@@ -1,10 +1,12 @@
+package COMP2033_Project_1_110450836;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the Pile class.
+ * Unit tests for the COMP2033_Project_1_110450836.Pile class.
  */
 class PileTest {
     private Pile pile;
@@ -57,7 +59,7 @@ class PileTest {
         pile.addCard(redTwo);
         List<Card> reshuffle = pile.takeCardsForNewDeck();
         assertTrue(reshuffle.isEmpty());
-        assertEquals(redTwo, pile.getTopCard()); // Pile still has the one card
+        assertEquals(redTwo, pile.getTopCard()); // COMP2033_Project_1_110450836.Pile still has the one card
     }
 
     @Test
@@ -75,7 +77,7 @@ class PileTest {
         assertTrue(reshuffle.contains(redTwo));
         assertFalse(reshuffle.contains(wild)); // Top card not included
 
-        // Pile should only contain the original top card now
+        // COMP2033_Project_1_110450836.Pile should only contain the original top card now
         assertEquals(wild, pile.getTopCard());
         // A bit tricky to check size directly on Deque, but peek should be reliable
         // Try adding another card to see if it becomes the new top
@@ -86,7 +88,7 @@ class PileTest {
          List<Card> reshuffle2 = pile.takeCardsForNewDeck();
          assertEquals(1, reshuffle2.size());
          assertEquals(wild, reshuffle2.get(0));
-         assertEquals(greenSkip, pile.getTopCard()); // Pile left with greenSkip
+         assertEquals(greenSkip, pile.getTopCard()); // COMP2033_Project_1_110450836.Pile left with greenSkip
 
     }
 
@@ -98,8 +100,8 @@ class PileTest {
         Card greenThree = new NumberCard(Color.GREEN, Value.THREE);
         Card wildCard = new WildCard(Color.WILD, Value.WILD);
 
-        assertTrue(pile.canPlay(redFive, null)); // Color match
-        assertTrue(pile.canPlay(blueTwo, null));  // Value match
+        assertTrue(pile.canPlay(redFive, null)); // COMP2033_Project_1_110450836.Color match
+        assertTrue(pile.canPlay(blueTwo, null));  // COMP2033_Project_1_110450836.Value match
         assertFalse(pile.canPlay(greenThree, null)); // No match
         assertTrue(pile.canPlay(wildCard, null));    // Wild match
     }

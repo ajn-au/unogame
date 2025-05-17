@@ -1,5 +1,5 @@
-/**
- * File: Pile.java
+package COMP2033_Project_1_110450836; /**
+ * File: COMP2033_Project_1_110450836.Pile.java
  * Description: Represents the discard pile in an Uno game.
  * Author: Andrew Nell
  * Student ID: 110450836
@@ -77,6 +77,6 @@ public class Pile {
     @Override
     public String toString() {
         Card top = getTopCard();
-        return "Pile [Top Card: " + (top == null ? "None" : top.toString()) + "]";
+        return "COMP2033_Project_1_110450836.Pile [Top COMP2033_Project_1_110450836.Card: " + (top == null ? "None" : top.toString()) + "]";
     }
 }

@@ -1,3 +1,5 @@
+package COMP2033_Project_1_110450836;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
@@ -5,7 +7,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the Hand class focusing on sorting behavior (using ArrayList)
+ * Tests for the COMP2033_Project_1_110450836.Hand class focusing on sorting behavior (using ArrayList)
  * and valid card finding.
  */
 class HandTest {
@@ -35,7 +37,7 @@ class HandTest {
         assertTrue(hand.isEmpty());
         assertEquals(0, hand.getSize());
         assertTrue(hand.getCards().isEmpty());
-        assertEquals("Hand: []", hand.toString());
+        assertEquals("COMP2033_Project_1_110450836.Hand: []", hand.toString());
     }
 
     @Test
@@ -75,7 +77,7 @@ class HandTest {
         assertEquals(redTwo, hand.getCards().get(0)); // Check remaining order
         assertEquals(wild, hand.getCards().get(1));
 
-        assertFalse(hand.removeCard(blueSkip)); // Card not in hand
+        assertFalse(hand.removeCard(blueSkip)); // COMP2033_Project_1_110450836.Card not in hand
         assertEquals(2, hand.getSize());
     }
 
@@ -94,7 +96,7 @@ class HandTest {
     void testPlayCardObjectNotFound() {
         hand.addCards(Arrays.asList(redTwo, wild));
          assertThrows(IllegalArgumentException.class, () -> hand.playCard(blueTwo));
-         assertEquals(2, hand.getSize()); // Hand unchanged
+         assertEquals(2, hand.getSize()); // COMP2033_Project_1_110450836.Hand unchanged
     }
 
      @Test
@@ -122,7 +124,7 @@ class HandTest {
     @Test
     void testFindValidCardsSimple() {
         hand.addCards(Arrays.asList(redTwo, blueTwo, wild, yellowSkip));
-        // Pile top is BLUE SKIP
+        // COMP2033_Project_1_110450836.Pile top is BLUE SKIP
         List<Card> valid = hand.findValidCards(blueSkip, null);
         assertEquals(3, valid.size());
         assertTrue(valid.contains(blueTwo)); // Matches color
@@ -134,7 +136,7 @@ class HandTest {
      @Test
     void testFindValidCardsOnWild() {
         hand.addCards(Arrays.asList(redTwo, redFour, blueTwo, yellowSkip, wild));
-        // Pile top is WILD, chosen color is RED
+        // COMP2033_Project_1_110450836.Pile top is WILD, chosen color is RED
         List<Card> valid = hand.findValidCards(wild, Color.RED);
          // Should be red cards + any wilds
         assertEquals(3, valid.size());
@@ -148,7 +150,7 @@ class HandTest {
      @Test
     void testFindValidCardsNone() {
         hand.addCards(Arrays.asList(redTwo, redFour));
-        // Pile top is BLUE SKIP
+        // COMP2033_Project_1_110450836.Pile top is BLUE SKIP
         List<Card> valid = hand.findValidCards(blueSkip, null);
         assertTrue(valid.isEmpty());
     }
@@ -165,6 +167,6 @@ class HandTest {
      @Test
     void testToString() {
         hand.addCards(Arrays.asList(wild, blueTwo, redTwo));
-        assertEquals("Hand: [RED TWO, BLUE TWO, WILD WILD]", hand.toString());
+        assertEquals("COMP2033_Project_1_110450836.Hand: [RED TWO, BLUE TWO, WILD WILD]", hand.toString());
     }
 }

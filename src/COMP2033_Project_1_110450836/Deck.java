@@ -1,3 +1,5 @@
+package COMP2033_Project_1_110450836;
+
 import java.util.*;
 
 /**
@@ -109,6 +111,6 @@ public class Deck {
 
     @Override
     public String toString() {
-        return "Deck [" + cardsRemaining() + " cards left]";
+        return "COMP2033_Project_1_110450836.Deck [" + cardsRemaining() + " cards left]";
     }
 }

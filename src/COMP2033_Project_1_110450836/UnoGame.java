@@ -1,3 +1,5 @@
+package COMP2033_Project_1_110450836;
+
 import java.util.*;
 
 public class UnoGame {
@@ -86,7 +88,7 @@ public class UnoGame {
         System.out.println("Flipping initial card onto the pile...");
         while (true) {
             if (!reshufflePile()) {
-                System.err.println("CRITICAL ERROR: Deck and pile empty. Cannot flip starting card.");
+                System.err.println("CRITICAL ERROR: COMP2033_Project_1_110450836.Deck and pile empty. Cannot flip starting card.");
                 isGameRunning = false;
                 return false;
             }
@@ -161,18 +163,18 @@ public class UnoGame {
         if (!deck.isEmpty()) return true;
         List<Card> reshuffle = pile.takeCardsForNewDeck();
         if (reshuffle.isEmpty()) return false;
-        System.out.println("\nDeck is empty! Reshuffling discard pile...");
+        System.out.println("\nCOMP2033_Project_1_110450836.Deck is empty! Reshuffling discard pile...");
         deck.addCards(reshuffle);
         deck.shuffle();
-        System.out.println("Deck reshuffled with " + deck.cardsRemaining() + " cards.");
+        System.out.println("COMP2033_Project_1_110450836.Deck reshuffled with " + deck.cardsRemaining() + " cards.");
         return true;
     }
 
     private void displayGameState(Player player) {
-        System.out.println("Pile Top: " + pile.getTopCard() +
-                (activeWildColor != null ? " (Active Wild Color: " + activeWildColor + ")" : ""));
+        System.out.println("COMP2033_Project_1_110450836.Pile Top: " + pile.getTopCard() +
+                (activeWildColor != null ? " (Active Wild COMP2033_Project_1_110450836.Color: " + activeWildColor + ")" : ""));
         for (Player p : players) System.out.print(p.getName() + ":" + p.getHand().getSize() + " | ");
-        System.out.println("\n" + player.getName() + "'s Hand: " + player.getHand());
+        System.out.println("\n" + player.getName() + "'s COMP2033_Project_1_110450836.Hand: " + player.getHand());
     }
 
     private void closeScannerIfNeeded() {
@@ -189,7 +191,7 @@ public class UnoGame {
             if (!reshufflePile()) break;
             player.getHand().addCard(deck.drawCard());
         }
-        System.out.println(player.getName() + " drew " + count + " card(s). Hand size now " + player.getHand().getSize());
+        System.out.println(player.getName() + " drew " + count + " card(s). COMP2033_Project_1_110450836.Hand size now " + player.getHand().getSize());
     }
     public int getNumberOfPlayers() { return players.size(); }
     public Player getCurrentPlayer() { return players.get(currentPlayerIndex); }
@@ -227,10 +229,10 @@ public class UnoGame {
         for (int i = 0; i < numPlayers; i++) {
             String name;
             while(true){
-                System.out.print("Enter name for Player " + (i + 1) + ": ");
+                System.out.print("Enter name for COMP2033_Project_1_110450836.Player " + (i + 1) + ": ");
                 name = setupScanner.nextLine().trim();
                 if(!name.isEmpty()) break;
-                System.out.println("Player name cannot be empty.");
+                System.out.println("COMP2033_Project_1_110450836.Player name cannot be empty.");
             }
             playerNames.add(name);
             if (i == 0) {
@@ -258,7 +260,7 @@ public class UnoGame {
 
         UnoGame unoGame = new UnoGame(playerStrategies, playerNames, seed, setupScanner);
         unoGame.run();
-        // The setupScanner is passed to HumanStrategy instances, and Game will close it if it's not System.in
+        // The setupScanner is passed to COMP2033_Project_1_110450836.HumanStrategy instances, and Game will close it if it's not System.in
     }
 
     
