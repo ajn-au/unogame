@@ -1,6 +1,7 @@
-package COMP2033_Project_1_110450836; /**
+package COMP2033_Project_1_110450836;
+/**
  * File: COMP2033_Project_1_110450836.Card.java
- * Description: A brief description of this Java module.
+ * Description: Uno card that has color and value
  * Author: Andrew Nell
  * Student ID: 110450836
  * Email ID: NELAY007
@@ -8,7 +9,7 @@ package COMP2033_Project_1_110450836; /**
  * This is my own work as defined by the University's Academic Integrity Policy.
  **/
 
-import java.util.Objects;
+import java.util.*;
 
 public abstract class Card implements Comparable<Card> {
     protected final Color color;
@@ -59,12 +60,20 @@ public abstract class Card implements Comparable<Card> {
 
     @Override
     public int compareTo(Card other) {
-        Objects.requireNonNull(other, "Cannot compare to a null card.");
-        int colorCompare = this.color.compareTo(other.color);
-        if (colorCompare != 0) return colorCompare;
+        if (other == null) {
+            return 1; // Place null cards at the end
+        }
+        List<Color> colorOrder = List.of(Color.WILD, Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE);
+        int colorCompare = Integer.compare(
+                colorOrder.indexOf(this.color),
+                colorOrder.indexOf(other.color)
+        );
+
+        if (colorCompare != 0) {
+            return colorCompare; // Prioritize sorting by color order
+        }
         return this.value.compareTo(other.value);
     }
-
     @Override
     public String toString() { return color + " " + value; }
 
