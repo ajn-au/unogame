@@ -1,4 +1,4 @@
-package COMP2033_Project_1_110450836;
+package projectone;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

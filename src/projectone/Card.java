@@ -1,4 +1,4 @@
-package COMP2033_Project_1_110450836;
+package projectone;
 /**
  * File: COMP2033_Project_1_110450836.Card.java
  * Description: Uno card that has color and value

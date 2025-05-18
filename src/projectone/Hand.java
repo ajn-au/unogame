@@ -1,4 +1,4 @@
-package COMP2033_Project_1_110450836; /**
+package projectone; /**
  * File: COMP2033_Project_1_110450836.Hand.java
  * Description:  Represents a player's hand of Uno cards. Uses an ArrayList and explicitly sorts cards after each addition to maintain sorted order as per the requirement.
  * Author: Andrew Nell 

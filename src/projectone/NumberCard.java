@@ -1,4 +1,4 @@
-package COMP2033_Project_1_110450836;
+package projectone;
 
 public class NumberCard extends Card {
     public NumberCard(Color color, Value value) {

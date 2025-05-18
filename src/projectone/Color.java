@@ -1,4 +1,4 @@
-package COMP2033_Project_1_110450836;
+package projectone;
 
 public enum Color {
         RED, YELLOW, GREEN, BLUE, WILD

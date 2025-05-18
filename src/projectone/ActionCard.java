@@ -1,4 +1,4 @@
-package COMP2033_Project_1_110450836;
+package projectone;
 
 /**
  * Represents an action card in an Uno game (Skip, Reverse, Draw Two).
