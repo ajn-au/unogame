@@ -19,14 +19,14 @@ class UnoGameTest {
 
     // Simple AI that always plays the first valid card / chooses RED for wild
     /*
-    private COMP2033_Project_1_110450836.PlayerStrategy simpleAI = new COMP2033_Project_1_110450836.PlayerStrategy() {
+    private projectone.PlayerStrategy simpleAI = new projectone.PlayerStrategy() {
         @Override
-        public COMP2033_Project_1_110450836.Card chooseCard(COMP2033_Project_1_110450836.Hand hand, List<COMP2033_Project_1_110450836.Card> playableCards, COMP2033_Project_1_110450836.Card topPileCard, COMP2033_Project_1_110450836.Color chosenWildColor) {
+        public projectone.Card chooseCard(projectone.Hand hand, List<projectone.Card> playableCards, projectone.Card topPileCard, projectone.Color chosenWildColor) {
             return playableCards.isEmpty() ? null : playableCards.get(0);
         }
         @Override
-        public COMP2033_Project_1_110450836.Color chooseWildColor(COMP2033_Project_1_110450836.Hand hand) {
-            return COMP2033_Project_1_110450836.Color.RED;
+        public projectone.Color chooseWildColor(projectone.Hand hand) {
+            return projectone.Color.RED;
         }
     };
     */
@@ -52,22 +52,22 @@ class UnoGameTest {
     @Test
     void testInitialDeal() {
          // Need a way to inspect player hands post-deal, maybe a test-specific Game constructor or method
-         // Or mock COMP2033_Project_1_110450836.Player/COMP2033_Project_1_110450836.Hand interactions during dealing
+         // Or mock projectone.Player/projectone.Hand interactions during dealing
          // For now, just ensure it runs without error
          UnoGame game = new UnoGame(strategies, playerNames, fixedSeed, scanner);
          game.run(); // Check if dealing succeeded
-         // Cannot easily assert hand sizes without modifying Game/COMP2033_Project_1_110450836.Player for testability
+         // Cannot easily assert hand sizes without modifying Game/projectone.Player for testability
     }
 
     /*
     @Test
     void testInitialFlipSkip() {
-        // Need to control the first card flipped. Mock COMP2033_Project_1_110450836.Deck or inject cards.
-        // Mocking COMP2033_Project_1_110450836.Deck:
-        COMP2033_Project_1_110450836.UnoGame game = new COMP2033_Project_1_110450836.UnoGame(strategies, playerNames, fixedSeed, scanner);
+        // Need to control the first card flipped. Mock projectone.Deck or inject cards.
+        // Mocking projectone.Deck:
+        projectone.UnoGame game = new projectone.UnoGame(strategies, playerNames, fixedSeed, scanner);
         game.dealInitialHands();
         // Manually force the pile for testing this specific scenario
-        while(game.getPile().getTopCard() == null || game.getPile().getTopCard().getValue() != COMP2033_Project_1_110450836.Value.SKIP) {
+        while(game.getPile().getTopCard() == null || game.getPile().getTopCard().getValue() != projectone.Value.SKIP) {
            game.getPile().addCard(game.getDeck().drawCard()); // Flip until we get a skip (relies on fixed seed)
            if(game.getDeck().isEmpty()) fail("Could not find a SKIP card with seed " + fixedSeed);
         }

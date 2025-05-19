@@ -6,7 +6,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the COMP2033_Project_1_110450836.Pile class.
+ * Unit tests for the projectone.Pile class.
  */
 class PileTest {
     private Pile pile;
@@ -59,7 +59,7 @@ class PileTest {
         pile.addCard(redTwo);
         List<Card> reshuffle = pile.takeCardsForNewDeck();
         assertTrue(reshuffle.isEmpty());
-        assertEquals(redTwo, pile.getTopCard()); // COMP2033_Project_1_110450836.Pile still has the one card
+        assertEquals(redTwo, pile.getTopCard()); // projectone.Pile still has the one card
     }
 
     @Test
@@ -77,7 +77,7 @@ class PileTest {
         assertTrue(reshuffle.contains(redTwo));
         assertFalse(reshuffle.contains(wild)); // Top card not included
 
-        // COMP2033_Project_1_110450836.Pile should only contain the original top card now
+        // projectone.Pile should only contain the original top card now
         assertEquals(wild, pile.getTopCard());
         // A bit tricky to check size directly on Deque, but peek should be reliable
         // Try adding another card to see if it becomes the new top
@@ -88,7 +88,7 @@ class PileTest {
          List<Card> reshuffle2 = pile.takeCardsForNewDeck();
          assertEquals(1, reshuffle2.size());
          assertEquals(wild, reshuffle2.get(0));
-         assertEquals(greenSkip, pile.getTopCard()); // COMP2033_Project_1_110450836.Pile left with greenSkip
+         assertEquals(greenSkip, pile.getTopCard()); // projectone.Pile left with greenSkip
 
     }
 
@@ -100,8 +100,8 @@ class PileTest {
         Card greenThree = new NumberCard(Color.GREEN, Value.THREE);
         Card wildCard = new WildCard(Color.WILD, Value.WILD);
 
-        assertTrue(pile.canPlay(redFive, null)); // COMP2033_Project_1_110450836.Color match
-        assertTrue(pile.canPlay(blueTwo, null));  // COMP2033_Project_1_110450836.Value match
+        assertTrue(pile.canPlay(redFive, null)); // projectone.Color match
+        assertTrue(pile.canPlay(blueTwo, null));  // projectone.Value match
         assertFalse(pile.canPlay(greenThree, null)); // No match
         assertTrue(pile.canPlay(wildCard, null));    // Wild match
     }

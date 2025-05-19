@@ -75,7 +75,7 @@ public class CardMatchingParameterizedTest {
         );
     }
     
-    @ParameterizedTest(name = "{index}: COMP2033_Project_1_110450836.Card with color {0} and value {1} should be {2}")
+    @ParameterizedTest(name = "{index}: projectone.Card with color {0} and value {1} should be {2}")
     @MethodSource("provideCardValidationScenarios")
     void testCardValidation(Color color, Value value, boolean shouldBeValid) {
         if (shouldBeValid) {

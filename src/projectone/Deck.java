@@ -111,6 +111,6 @@ public class Deck {
 
     @Override
     public String toString() {
-        return "COMP2033_Project_1_110450836.Deck [" + cardsRemaining() + " cards left]";
+        return "projectone.Deck [" + cardsRemaining() + " cards left]";
     }
 }

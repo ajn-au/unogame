@@ -1,6 +1,6 @@
 package projectone;
 /**
- * File: COMP2033_Project_1_110450836.Card.java
+ * File: projectone.Card.java
  * Description: Uno card that has color and value
  * Author: Andrew Nell
  * Student ID: 110450836
@@ -16,8 +16,8 @@ public abstract class Card implements Comparable<Card> {
     protected final Value value;
 
     protected Card(Color color, Value value) {
-        Objects.requireNonNull(color, "COMP2033_Project_1_110450836.Card color cannot be null");
-        Objects.requireNonNull(value, "COMP2033_Project_1_110450836.Card value cannot be null");
+        Objects.requireNonNull(color, "projectone.Card color cannot be null");
+        Objects.requireNonNull(value, "projectone.Card value cannot be null");
         validateColorValueCombination(color, value);
         this.color = color;
         this.value = value;
@@ -32,7 +32,7 @@ public abstract class Card implements Comparable<Card> {
             throw new IllegalArgumentException("Cards with value " + value + " must have WILD color, not " + color);
         }
         if (color == Color.WILD && !isWildValueType) {
-            throw new IllegalArgumentException("Only WILD or WILD_DRAW_FOUR cards can have WILD color. COMP2033_Project_1_110450836.Value was: " + value);
+            throw new IllegalArgumentException("Only WILD or WILD_DRAW_FOUR cards can have WILD color. projectone.Value was: " + value);
         }
     }
 

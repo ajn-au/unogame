@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the COMP2033_Project_1_110450836.Card abstract class and its subclasses.
+ * Unit tests for the projectone.Card abstract class and its subclasses.
  */
 class CardTest {
 
@@ -61,7 +61,7 @@ class CardTest {
 
     @Test
     void testInvalidWildCardColor() {
-        // COMP2033_Project_1_110450836.Card constructor prevents non-WILD color for WILD values
+        // projectone.Card constructor prevents non-WILD color for WILD values
         assertThrows(IllegalArgumentException.class, () -> new Card(Color.RED, Value.WILD){
              @Override public void applyEffect(UnoGame game) {} // Dummy implementation
         });
@@ -104,9 +104,9 @@ class CardTest {
         assertTrue(play.canPlayOn(top, null));
     }
 
-    // testWildDrawFourCanPlayOnAnything removed as it's redundant with COMP2033_Project_1_110450836.WildCard logic
+    // testWildDrawFourCanPlayOnAnything removed as it's redundant with projectone.WildCard logic
     // and the game rules about initial play are handled elsewhere.
-    // The COMP2033_Project_1_110450836.Card.canPlayOn method only checks basic playability, not game-start restrictions.
+    // The projectone.Card.canPlayOn method only checks basic playability, not game-start restrictions.
     // The logic for handling initial WILD_DRAW_FOUR is in Game.flipInitialCard().
 
 
@@ -158,7 +158,7 @@ class CardTest {
         assertTrue(red5.compareTo(redSkip) < 0); // FIVE < SKIP (based on enum order)
         assertTrue(redSkip.compareTo(red1) > 0);
         // Cannot compare non-WILD with WILD directly using this logic if needed
-        // assertTrue(redSkip.compareTo(wild) < 0); // Handled by COMP2033_Project_1_110450836.Color compare first
+        // assertTrue(redSkip.compareTo(wild) < 0); // Handled by projectone.Color compare first
          assertTrue(wild.compareTo(wildD4) < 0); // WILD < WILD_DRAW_FOUR
     }
 

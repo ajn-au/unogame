@@ -6,7 +6,7 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the COMP2033_Project_1_110450836.Player class.
+ * Unit tests for the projectone.Player class.
  */
 class PlayerTest {
 
@@ -32,7 +32,7 @@ class PlayerTest {
          assertThrows(NullPointerException.class, () -> new Player(null, mockStrategy));
          assertThrows(IllegalArgumentException.class, () -> new Player(" ", mockStrategy));
          assertThrows(IllegalArgumentException.class, () -> new Player("", mockStrategy));
-         //assertThrows(NullPointerException.class, () -> new COMP2033_Project_1_110450836.Player("Valid", null));
+         //assertThrows(NullPointerException.class, () -> new projectone.Player("Valid", null));
     }
 
      @Test

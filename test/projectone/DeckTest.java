@@ -8,7 +8,7 @@ import java.util.Set;
 
 
 /**
- * Unit tests for the COMP2033_Project_1_110450836.Deck class.
+ * Unit tests for the projectone.Deck class.
  */
 class DeckTest {
 
@@ -86,7 +86,7 @@ class DeckTest {
 
         // Draw again - now they should likely be different
         Card card2_d1 = deck1.drawCard();
-        Card card2_d2 = deck2.drawCard(); // COMP2033_Project_1_110450836.Deck 2 not shuffled
+        Card card2_d2 = deck2.drawCard(); // projectone.Deck 2 not shuffled
         // It's *possible* they are the same by chance, but highly unlikely with a full deck
         assertNotEquals(card2_d1, card2_d2, "Shuffled deck should likely yield different card than unshuffled");
 

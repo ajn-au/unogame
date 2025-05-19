@@ -19,15 +19,15 @@ public class Player {
     private final PlayerStrategy strategy;
 
     /**
-     * Constructs a new COMP2033_Project_1_110450836.Player with a name and strategy.
+     * Constructs a new projectone.Player with a name and strategy.
      * @param name The player's name. Must not be null or blank.
      * @param strategy The strategy used by the player. Must not be null.
      */
     public Player(String name, PlayerStrategy strategy) {
-        Objects.requireNonNull(name, "COMP2033_Project_1_110450836.Player name cannot be null");
-        Objects.requireNonNull(strategy, "COMP2033_Project_1_110450836.Player strategy cannot be null");
+        Objects.requireNonNull(name, "projectone.Player name cannot be null");
+        Objects.requireNonNull(strategy, "projectone.Player strategy cannot be null");
         if (name.trim().isEmpty()) {
-            throw new IllegalArgumentException("COMP2033_Project_1_110450836.Player name cannot be blank");
+            throw new IllegalArgumentException("projectone.Player name cannot be blank");
         }
         this.name = name;
         this.hand = new Hand();
@@ -66,7 +66,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "COMP2033_Project_1_110450836.Player: " + name + " (COMP2033_Project_1_110450836.Hand: " + hand.getSize() + " cards)";
+        return "projectone.Player: " + name + " (projectone.Hand: " + hand.getSize() + " cards)";
     }
 
     @Override
