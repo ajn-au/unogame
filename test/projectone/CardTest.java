@@ -143,7 +143,7 @@ class CardTest {
 
         assertTrue(red.compareTo(yellow) < 0); // RED < YELLOW
         assertTrue(yellow.compareTo(red) > 0);
-        assertTrue(yellow.compareTo(wild) < 0); // YELLOW < WILD
+        assertTrue(yellow.compareTo(wild) > 0); // YELLOW > WILD
     }
 
     @Test

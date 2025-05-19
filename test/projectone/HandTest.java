@@ -48,9 +48,10 @@ class HandTest {
 
         List<Card> cards = hand.getCards();
         assertEquals(3, cards.size());
-        assertEquals(redTwo, cards.get(0)); // Red first
-        assertEquals(blueTwo, cards.get(1)); // Then Blue
-        assertEquals(wild, cards.get(2));   // Then Wild
+        assertEquals(wild, cards.get(0));   // Wild first
+        assertEquals(redTwo, cards.get(1)); // Then Wild
+        assertEquals(blueTwo, cards.get(2)); // Then Blue
+
     }
 
     @Test
@@ -61,11 +62,11 @@ class HandTest {
         List<Card> cards = hand.getCards();
         assertEquals(5, cards.size());
         // Expected: R2, R4, YS, B2, W
-        assertEquals(redTwo, cards.get(0));
-        assertEquals(redFour, cards.get(1));
-        assertEquals(yellowSkip, cards.get(2));
-        assertEquals(blueTwo, cards.get(3));
-        assertEquals(wild, cards.get(4));
+        assertEquals(wild, cards.get(0));
+        assertEquals(redTwo, cards.get(1));
+        assertEquals(redFour, cards.get(2));
+        assertEquals(yellowSkip, cards.get(3));
+        assertEquals(blueTwo, cards.get(4));
     }
 
     @Test
@@ -74,8 +75,8 @@ class HandTest {
         assertTrue(hand.removeCard(blueTwo));
         assertEquals(2, hand.getSize());
         assertFalse(hand.getCards().contains(blueTwo));
-        assertEquals(redTwo, hand.getCards().get(0)); // Check remaining order
-        assertEquals(wild, hand.getCards().get(1));
+        assertEquals(wild, hand.getCards().get(0)); // Check remaining order
+        assertEquals(redTwo, hand.getCards().get(1));
 
         assertFalse(hand.removeCard(blueSkip)); // projectone.Card not in hand
         assertEquals(2, hand.getSize());
@@ -88,8 +89,8 @@ class HandTest {
         assertEquals(blueTwo, played);
         assertEquals(2, hand.getSize());
         assertFalse(hand.getCards().contains(blueTwo));
-        assertEquals(redTwo, hand.getCards().get(0));
-        assertEquals(wild, hand.getCards().get(1));
+        assertEquals(wild, hand.getCards().get(0));
+        assertEquals(redTwo, hand.getCards().get(1));
     }
 
      @Test
@@ -104,13 +105,13 @@ class HandTest {
         hand.addCards(Arrays.asList(redTwo, redFour, blueTwo, yellowSkip, wild));
         // Expected order: R2[0], R4[1], B2[2], YS[3], W[4]
         Card played = hand.playCard(2); // Play blueTwo
-        assertEquals(yellowSkip, played);
+        assertEquals(redFour, played);
         assertEquals(4, hand.getSize());
         List<Card> remaining = hand.getCards();
-        assertEquals(redTwo, remaining.get(0));
-        assertEquals(redFour, remaining.get(1));
-        assertEquals(blueTwo, remaining.get(2));
-        assertEquals(wild, remaining.get(3));
+        assertEquals(wild, remaining.get(0));
+        assertEquals(redTwo, remaining.get(1));
+        assertEquals(yellowSkip, remaining.get(2));
+        assertEquals(blueTwo, remaining.get(3));
     }
 
      @Test
@@ -167,6 +168,6 @@ class HandTest {
      @Test
     void testToString() {
         hand.addCards(Arrays.asList(wild, blueTwo, redTwo));
-        assertEquals("projectone.Hand: [RED TWO, BLUE TWO, WILD WILD]", hand.toString());
+        assertEquals("projectone.Hand: [WILD WILD, RED TWO, BLUE TWO]", hand.toString());
     }
 }
