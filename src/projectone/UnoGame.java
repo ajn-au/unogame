@@ -101,12 +101,13 @@ public class UnoGame {
                 continue;
             }
             pile.addCard(firstCard);
-            firstCard.applyEffect(this);
             if (firstCard.getValue() == Value.WILD) {
                 Player firstPlayer = players.get(0);
                 Color chosen = firstPlayer.chooseWildColor(this);
                 setActiveWildColor(chosen);
                 System.out.println(firstPlayer.getName() + " chose starting color: " + chosen);
+            } else {
+                firstCard.applyEffect(this);
             }
             break;
         }
